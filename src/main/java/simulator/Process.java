@@ -18,9 +18,13 @@ public class Process {
       this.execTime = execTime;
     }
 
-    public static void toJson(Process xd) {
+    public static String toJson(Process proc) {
         Gson gson = new Gson();
-        System.out.println(gson.toJson(xd));
+        return gson.toJson(proc);
+    }
+
+    public static Process fromJson(String proc) {
+        Gson gson = new Gson();
+        return gson.fromJson(proc, Process.class);
     }
 }
-
