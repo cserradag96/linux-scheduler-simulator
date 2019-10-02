@@ -1,4 +1,4 @@
-package lib;
+package simulator;
 
 class Node {
     int data; // holds the key
@@ -19,7 +19,7 @@ public class RedBlackTree {
             System.out.print(node.data + " ");
             preOrderHelper(node.left);
             preOrderHelper(node.right);
-        } 
+        }
     }
 
     private void inOrderHelper(Node node) {
@@ -27,7 +27,7 @@ public class RedBlackTree {
             inOrderHelper(node.left);
             System.out.print(node.data + " ");
             inOrderHelper(node.right);
-        } 
+        }
     }
 
     private void postOrderHelper(Node node) {
@@ -35,7 +35,7 @@ public class RedBlackTree {
             postOrderHelper(node.left);
             postOrderHelper(node.right);
             System.out.print(node.data + " ");
-        } 
+        }
     }
 
     private Node searchTreeHelper(Node node, int key) {
@@ -45,7 +45,7 @@ public class RedBlackTree {
 
         if (key < node.data) {
             return searchTreeHelper(node.left, key);
-        } 
+        }
         return searchTreeHelper(node.right, key);
     }
 
@@ -74,7 +74,7 @@ public class RedBlackTree {
                         s.color = 1;
                         rightRotate(s);
                         s = x.parent.right;
-                    } 
+                    }
 
                     // case 3.4
                     s.color = x.parent.color;
@@ -104,7 +104,7 @@ public class RedBlackTree {
                         s.color = 1;
                         leftRotate(s);
                         s = x.parent.left;
-                    } 
+                    }
 
                     // case 3.4
                     s.color = x.parent.color;
@@ -113,7 +113,7 @@ public class RedBlackTree {
                     rightRotate(x.parent);
                     x = root;
                 }
-            } 
+            }
         }
         x.color = 0;
     }
@@ -149,7 +149,7 @@ public class RedBlackTree {
         if (z == TNULL) {
             System.out.println("Couldn't find key in the tree");
             return;
-        } 
+        }
 
         y = z;
         int yOriginalColor = y.color;
@@ -180,7 +180,7 @@ public class RedBlackTree {
             fixDelete(x);
         }
     }
-    
+
     // fix the red-black tree
     private void fixInsert(Node k){
         Node u;
@@ -212,7 +212,7 @@ public class RedBlackTree {
                     u.color = 0;
                     k.parent.color = 0;
                     k.parent.parent.color = 1;
-                    k = k.parent.parent;    
+                    k = k.parent.parent;
                 } else {
                     if (k == k.parent.right) {
                         // mirror case 3.2.2
@@ -243,7 +243,7 @@ public class RedBlackTree {
               System.out.print("L----");
               indent += "|    ";
            }
-            
+
            String sColor = root.color == 1?"RED":"BLACK";
            System.out.println(root.data + "(" + sColor + ")");
            printHelper(root.left, indent, false);
@@ -330,7 +330,7 @@ public class RedBlackTree {
     // find the predecessor of a given node
     public Node predecessor(Node x) {
         // if the left subtree is not null,
-        // the predecessor is the rightmost node in the 
+        // the predecessor is the rightmost node in the
         // left subtree
         if (x.left != TNULL) {
             return maximum(x.left);
@@ -451,7 +451,7 @@ public class RedBlackTree {
         // 1.1 Check Search: not found
         System.out.println("1.1 Search: not found");
         System.out.println(search(8) == null);
-        
+
         // 1.2 Check Search: found
         System.out.println("1.2 Check Search: found");
         insert(8);

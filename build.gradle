@@ -1,21 +1,27 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = 'hello.HelloWorld'
+mainClassName = 'simulator.CFS'
 
 repositories {
-    mavenCentral()
-}
-
-jar {
-    baseName = 'cfs-simulator'
-    version =  '0.1.0'
+  mavenCentral()
 }
 
 sourceCompatibility = 11.0
 targetCompatibility = 11.0
 
 dependencies {
-    compile "joda-time:joda-time:2.2"
-    testCompile "junit:junit:4.12"
+  compile "joda-time:joda-time:2.2"
+  testCompile "junit:junit:4.12"
+}
+
+jar {
+  baseName = 'cfs-simulator'
+  version =  '0.1.0'
+  manifest {
+    attributes(
+      'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+      'Main-Class': 'simulator.CFS'
+    )
+  }
 }
