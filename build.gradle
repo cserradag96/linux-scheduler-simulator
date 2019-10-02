@@ -25,3 +25,8 @@ jar {
     )
   }
 }
+
+task(testAll, dependsOn: 'classes', type: JavaExec) {
+    main = 'tests.AllTest'
+    classpath = sourceSets.main.runtimeClasspath
+}

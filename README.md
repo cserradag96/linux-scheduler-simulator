@@ -10,3 +10,13 @@ java 11.0+
 ```
 ./gradlew build
 ```
+
+### Execution
+```
+./gradlew run
+```
+
+### Tests
+```
+./gradlew testAll
+```
