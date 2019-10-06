@@ -1,4 +1,4 @@
-package tests;
+package custom;
 import simulator.Process;
 
 public class ProcessTest {

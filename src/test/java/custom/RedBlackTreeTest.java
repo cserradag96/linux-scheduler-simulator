@@ -1,4 +1,4 @@
-package tests;
+package custom;
 import simulator.RedBlackTree;
 
 public class RedBlackTreeTest {

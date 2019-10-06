@@ -1,16 +1,6 @@
 package simulator;
 
-class Node {
-    int data; // holds the key
-    Node parent; // pointer to the parent
-    Node left; // pointer to left child
-    Node right; // pointer to right child
-    int color; // 1 is Red, 0 is Black
-}
-
-// class RedBlackTree implements the operations in Red Black Tree
 public class RedBlackTree {
-
     private Node root;
     private Node TNULL;
 
@@ -117,7 +107,6 @@ public class RedBlackTree {
         }
         x.color = 0;
     }
-
 
     private void rbTransplant(Node u, Node v){
         if (u.parent == null) {
