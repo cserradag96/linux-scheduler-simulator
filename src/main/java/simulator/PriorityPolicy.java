@@ -1,8 +1,8 @@
 package simulator;
 
 class PriorityPolicy {
-    private static final int NICE_0_VALUE = 1024;
-    private static final int[] SCHEDULER_PRIORITY_TO_WEIGHT = {
+    public static final int NICE_0_VALUE = 1024;
+    public static final int[] SCHEDULER_PRIORITY_TO_WEIGHT = {
         88761,     71755,     56483,     46273,     36291,
         29154,     23254,     18705,     14949,     11916,
          9548,      7620,      6100,      4904,      3906,
@@ -13,24 +13,24 @@ class PriorityPolicy {
            36,        29,        23,        18,        15,
     };
 
-    private static final int MAX_NICE = 19;
-    private static final int MIN_NICE = -20;
-    private static final int NICE_WIDTH = (MAX_NICE - MIN_NICE + 1);
-    private static final int MAX_USER_RT_PRIORITY = 100;
-    private static final int MAX_RT_PRIORITY = MAX_USER_RT_PRIORITY;
-    private static final int MAX_PRIORITY = (MAX_RT_PRIORITY + NICE_WIDTH);
-    private static final int DEFAULT_PRIORITY = (MAX_RT_PRIORITY + NICE_WIDTH / 2);
+    public static final int MAX_NICE = 19;
+    public static final int MIN_NICE = -20;
+    public static final int NICE_WIDTH = (MAX_NICE - MIN_NICE + 1);
+    public static final int MAX_USER_RT_PRIORITY = 100;
+    public static final int MAX_RT_PRIORITY = MAX_USER_RT_PRIORITY;
+    public static final int MAX_PRIORITY = (MAX_RT_PRIORITY + NICE_WIDTH);
+    public static final int DEFAULT_PRIORITY = (MAX_RT_PRIORITY + NICE_WIDTH / 2);
 
     /*
     * Convert user-nice values [ -20 ... 0 ... 19 ]
     * to static priority [ MAX_RT_PRIORITY..MAX_PRIORITY-1 ],
     * and back.
     */
-    private int niceToPriority(int nice) {
+    public int niceToPriority(int nice) {
         return nice + DEFAULT_PRIORITY;
     }
 
-    private int prioToNice(int priority) {
+    public int prioToNice(int priority) {
         return priority - DEFAULT_PRIORITY;
     }
 
@@ -39,11 +39,11 @@ class PriorityPolicy {
     * can work with better when scaling various scheduler parameters,
     * it's a [ 0 ... 39 ] range.
     */
-    private int userPriority(int priority) {
+    public int userPriority(int priority) {
         return priority - MAX_RT_PRIORITY;
     }
 
-    private int maxUserPrio() {
+    public int maxUserPrio() {
         return userPriority(MAX_PRIORITY);
     }
 }

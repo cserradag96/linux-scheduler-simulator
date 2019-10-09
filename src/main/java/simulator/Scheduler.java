@@ -13,5 +13,8 @@ public class Scheduler {
         for(int i = 0; i < coresCount; i++) {
             cores.add(new Processor());
         }
+
+        Process proc0 = new Process("proc0", "0", "i/o", "zombie", 42, 23);
+        proc0.run();
     }
 }
