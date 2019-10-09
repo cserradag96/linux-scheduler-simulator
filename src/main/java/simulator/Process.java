@@ -7,16 +7,16 @@ public class Process {
     public String type;
     public String state;
     public int memory;
-    public int runtime;
+    public int vruntime;
     public int priority;
 
-    public Process(String pid, String name, String type, String state, int memory, int runtime) {
+    public Process(String pid, String name, String type, String state, int memory, int vruntime) {
       this.pid = pid;
       this.name = name;
       this.type = type;
       this.state = state;
       this.memory = memory;
-      this.runtime = runtime;
+      this.vruntime = vruntime;
     }
 
     public String toJson() {
