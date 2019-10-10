@@ -149,7 +149,7 @@ public class RunQueue {
             x = z.left;
             rbTransplant(z, z.left);
         } else {
-            y = minimum(z.right);
+            y = minFromNode(z.right);
             yOriginalColor = y.color;
             x = y.right;
             if (y.parent == z) {
@@ -278,20 +278,30 @@ public class RunQueue {
         return node.getKey();
     }
 
-    // find the node with the minimum key
-    public Node minimum(Node node) {
+    // find the node with the minimum key respect to given node
+    public Node minFromNode(Node node) {
         while (node.left != NIL) {
             node = node.left;
         }
         return node;
     }
 
-    // find the node with the maximum key
-    public Node maximum(Node node) {
+    // Find the node with the minimum key
+    public Node min() {
+        return minFromNode(root);
+    }
+
+    // find the node with the maximum key respect to given node
+    public Node maxFromNode(Node node) {
         while (node.right != NIL) {
             node = node.right;
         }
         return node;
+    }
+
+    // Find the node with the maximum key
+    public Node max() {
+        return maxFromNode(root);
     }
 
     // find the successor of a given node
@@ -300,7 +310,7 @@ public class RunQueue {
         // the successor is the leftmost node in the
         // right subtree
         if (x.right != NIL) {
-            return minimum(x.right);
+            return minFromNode(x.right);
         }
 
         // else it is the lowest ancestor of x whose
@@ -319,7 +329,7 @@ public class RunQueue {
         // the predecessor is the rightmost node in the
         // left subtree
         if (x.left != NIL) {
-            return maximum(x.left);
+            return maxFromNode(x.left);
         }
 
         Node y = x.parent;
