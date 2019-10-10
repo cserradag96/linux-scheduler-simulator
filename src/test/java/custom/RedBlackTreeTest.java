@@ -1,5 +1,6 @@
 package custom;
 import simulator.RedBlackTree;
+import simulator.Process;
 
 public class RedBlackTreeTest {
   public static void main(String [] args) {
@@ -13,20 +14,20 @@ public class RedBlackTreeTest {
 
       // 1.2 Check Search: found
       System.out.println("1.2 Check Search: found");
-      tree.insert(8);
-      System.out.println(tree.search(8) == 8);
+      tree.insert(new Process(8, "proc8"));
+      System.out.println(tree.search(0) == 0);
 
       // 2.1 Check Insert
       System.out.println("2.1 Check Insert");
-      tree.insert(18);
-      tree.insert(5);
-      tree.insert(15);
+      tree.insert(new Process(18, "proc18"));
+      tree.insert(new Process(5, "proc5"));
+      tree.insert(new Process(15, "proc15"));
       tree.inorder();
       System.out.println();
 
       // 2.2 Check Insert: Repetition
       System.out.println("2.2 Check Insert: Repetition");
-      tree.insert(8);
+      tree.insert(new Process(8, "proc8"));
       tree.inorder();
       System.out.println();
       tree.prettyPrint();

@@ -1,7 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'application'
 
-mainClassName = 'simulator.Scheduler'
+mainClassName = 'simulator.Simulator'
 
 repositories {
   mavenCentral()
@@ -21,7 +21,7 @@ jar {
   manifest {
     attributes(
       'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-      'Main-Class': 'simulator.Scheduler'
+      'Main-Class': 'simulator.Simulator'
     )
   }
 }

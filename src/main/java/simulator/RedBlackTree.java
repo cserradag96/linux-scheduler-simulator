@@ -6,7 +6,7 @@ public class RedBlackTree {
 
     private void preOrderHelper(Node node) {
         if (node != TNULL) {
-            System.out.print(node.data + " ");
+            System.out.print(node.getKey() + " ");
             preOrderHelper(node.left);
             preOrderHelper(node.right);
         }
@@ -15,7 +15,7 @@ public class RedBlackTree {
     private void inOrderHelper(Node node) {
         if (node != TNULL) {
             inOrderHelper(node.left);
-            System.out.print(node.data + " ");
+            System.out.print(node.getKey() + " ");
             inOrderHelper(node.right);
         }
     }
@@ -24,16 +24,16 @@ public class RedBlackTree {
         if (node != TNULL) {
             postOrderHelper(node.left);
             postOrderHelper(node.right);
-            System.out.print(node.data + " ");
+            System.out.print(node.getKey() + " ");
         }
     }
 
     private Node searchTreeHelper(Node node, int key) {
-        if (node == TNULL || key == node.data) {
+        if (node == TNULL || key == node.getKey()) {
             return node;
         }
 
-        if (key < node.data) {
+        if (key < node.getKey()) {
             return searchTreeHelper(node.left, key);
         }
         return searchTreeHelper(node.right, key);
@@ -124,11 +124,11 @@ public class RedBlackTree {
         Node z = TNULL;
         Node x, y;
         while (node != TNULL){
-            if (node.data == key) {
+            if (node.getKey() == key) {
                 z = node;
             }
 
-            if (node.data <= key) {
+            if (node.getKey() <= key) {
                 node = node.right;
             } else {
                 node = node.left;
@@ -234,7 +234,7 @@ public class RedBlackTree {
            }
 
            String sColor = root.color == 1?"RED":"BLACK";
-           System.out.println(root.data + "(" + sColor + ")");
+           System.out.println(root.getKey() + "(" + sColor + ")");
            printHelper(root.left, indent, false);
            printHelper(root.right, indent, true);
         }
@@ -278,7 +278,7 @@ public class RedBlackTree {
         if(node == TNULL) {
             return null;
         }
-        return node.data;
+        return node.getKey();
     }
 
     // find the node with the minimum key
@@ -373,21 +373,15 @@ public class RedBlackTree {
 
     // insert the key to the tree in its appropriate position
     // and fix the tree
-    public void insert(int key) {
+    public void insert(Process proc) {
         // Ordinary Binary Search Insertion
-        Node node = new Node();
-        node.parent = null;
-        node.data = key;
-        node.left = TNULL;
-        node.right = TNULL;
-        node.color = 1; // new node must be red
-
+        Node node = new Node(proc, TNULL, TNULL);
         Node y = null;
         Node x = this.root;
 
         while (x != TNULL) {
             y = x;
-            if (node.data < x.data) {
+            if (node.getKey() < x.getKey()) {
                 x = x.left;
             } else {
                 x = x.right;
@@ -398,7 +392,7 @@ public class RedBlackTree {
         node.parent = y;
         if (y == null) {
             root = node;
-        } else if (node.data < y.data) {
+        } else if (node.getKey() < y.getKey()) {
             y.left = node;
         } else {
             y.right = node;
@@ -424,8 +418,8 @@ public class RedBlackTree {
     }
 
     // delete the node from the tree
-    public void delete(int data) {
-        deleteNodeHelper(this.root, data);
+    public void delete(int key) {
+        deleteNodeHelper(this.root, key);
     }
 
     // print the tree structure on the screen

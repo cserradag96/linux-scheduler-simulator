@@ -2,16 +2,18 @@ package simulator;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Scheduler {
-    public static void main(String [] args) {
-        int coresCount = 4;
+public class Kernel {
+    public int coresCount;
+    public IOQueue ioQueue;
+    public List<Processor> cores;
 
-        RedBlackTree readyQueue = new RedBlackTree();
-        IOQueue io = new IOQueue();
+    public Kernel(int coresCount) {
+        this.coresCount = coresCount;
+        this.ioQueue = new IOQueue();
+        this.cores = new ArrayList<Processor>();
 
-        List<Processor> cores = new ArrayList<Processor>();
         for(int i = 0; i < coresCount; i++) {
-            cores.add(new Processor());
+            cores.add(new Processor(this));
         }
 
         Process proc0 = new Process(0, "proc0");
