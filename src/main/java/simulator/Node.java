@@ -1,6 +1,8 @@
 package simulator;
 
 public class Node {
+    private static Node NIL = null;
+
     public int color;      // 1 is Red, 0 is Black
     public Node left;      // Pointer to left child
     public Node parent;    // Pointer to the parent
@@ -15,12 +17,17 @@ public class Node {
         proc = null;
     }
 
-    public Node(Process proc, Node left, Node right) {
+    public Node(Process proc) {
         color = 1;
-        parent = null;
-        this.left = left;
-        this.right = right;
+        parent = nil();
+        this.left = nil();
+        this.right = nil();
         this.proc = proc;
+    }
+
+    public static Node nil() {
+        if (NIL == null) NIL = new Node();
+        return NIL;
     }
 
     public int getKey() {

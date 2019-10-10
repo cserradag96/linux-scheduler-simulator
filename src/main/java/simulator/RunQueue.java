@@ -241,7 +241,7 @@ public class RunQueue {
     }
 
     public RunQueue() {
-        NIL = new Node();
+        NIL = Node.nil();
         root = NIL;
     }
 
@@ -280,7 +280,7 @@ public class RunQueue {
 
     // find the node with the minimum key respect to given node
     public Node minFromNode(Node node) {
-        while (node.left != NIL) {
+        while (node.left != null && node.left != NIL) {
             node = node.left;
         }
         return node;
@@ -293,7 +293,7 @@ public class RunQueue {
 
     // find the node with the maximum key respect to given node
     public Node maxFromNode(Node node) {
-        while (node.right != NIL) {
+        while (node.right != null && node.right != NIL) {
             node = node.right;
         }
         return node;
@@ -382,7 +382,7 @@ public class RunQueue {
     // and fix the tree
     public Node insert(Process proc) {
         // Ordinary Binary Search Insertion
-        Node node = new Node(proc, NIL, NIL);
+        Node node = new Node(proc);
         Node y = null;
         Node x = this.root;
 

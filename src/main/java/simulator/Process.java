@@ -73,7 +73,6 @@ public class Process extends PriorityPolicy {
     }
 
     private boolean finishProb() {
-        System.out.println("Yeeiii");
         return Math.random() * Math.random() * Math.random() > 0.95;
     }
 
