@@ -2,10 +2,10 @@ package simulator;
 
 public class RedBlackTree {
     private Node root;
-    private Node TNULL;
+    private Node NIL;
 
     private void preOrderHelper(Node node) {
-        if (node != TNULL) {
+        if (node != NIL) {
             System.out.print(node.getKey() + " ");
             preOrderHelper(node.left);
             preOrderHelper(node.right);
@@ -13,7 +13,7 @@ public class RedBlackTree {
     }
 
     private void inOrderHelper(Node node) {
-        if (node != TNULL) {
+        if (node != NIL) {
             inOrderHelper(node.left);
             System.out.print(node.getKey() + " ");
             inOrderHelper(node.right);
@@ -21,7 +21,7 @@ public class RedBlackTree {
     }
 
     private void postOrderHelper(Node node) {
-        if (node != TNULL) {
+        if (node != NIL) {
             postOrderHelper(node.left);
             postOrderHelper(node.right);
             System.out.print(node.getKey() + " ");
@@ -29,7 +29,7 @@ public class RedBlackTree {
     }
 
     private Node searchTreeHelper(Node node, int key) {
-        if (node == TNULL || key == node.getKey()) {
+        if (node == NIL || key == node.getKey()) {
             return node;
         }
 
@@ -121,9 +121,9 @@ public class RedBlackTree {
 
     private void deleteNodeHelper(Node node, int key) {
         // find the node containing key
-        Node z = TNULL;
+        Node z = NIL;
         Node x, y;
-        while (node != TNULL){
+        while (node != NIL){
             if (node.getKey() == key) {
                 z = node;
             }
@@ -135,17 +135,17 @@ public class RedBlackTree {
             }
         }
 
-        if (z == TNULL) {
+        if (z == NIL) {
             System.out.println("Couldn't find key in the tree");
             return;
         }
 
         y = z;
         int yOriginalColor = y.color;
-        if (z.left == TNULL) {
+        if (z.left == NIL) {
             x = z.right;
             rbTransplant(z, z.right);
-        } else if (z.right == TNULL) {
+        } else if (z.right == NIL) {
             x = z.left;
             rbTransplant(z, z.left);
         } else {
@@ -223,7 +223,7 @@ public class RedBlackTree {
 
     private void printHelper(Node root, String indent, boolean last) {
         // print the tree structure on the screen
-        if (root != TNULL) {
+        if (root != NIL) {
            System.out.print(indent);
            if (last) {
               System.out.print("R----");
@@ -241,11 +241,8 @@ public class RedBlackTree {
     }
 
     public RedBlackTree() {
-        TNULL = new Node();
-        TNULL.color = 0;
-        TNULL.left = null;
-        TNULL.right = null;
-        root = TNULL;
+        NIL = new Node();
+        root = NIL;
     }
 
     // Pre-Order traversal
@@ -275,7 +272,7 @@ public class RedBlackTree {
     // search the tree for the key k
     public Integer search(int k) {
         Node node = searchTreeHelper(this.root, k);
-        if(node == TNULL) {
+        if(node == NIL) {
             return null;
         }
         return node.getKey();
@@ -283,7 +280,7 @@ public class RedBlackTree {
 
     // find the node with the minimum key
     public Node minimum(Node node) {
-        while (node.left != TNULL) {
+        while (node.left != NIL) {
             node = node.left;
         }
         return node;
@@ -291,7 +288,7 @@ public class RedBlackTree {
 
     // find the node with the maximum key
     public Node maximum(Node node) {
-        while (node.right != TNULL) {
+        while (node.right != NIL) {
             node = node.right;
         }
         return node;
@@ -302,14 +299,14 @@ public class RedBlackTree {
         // if the right subtree is not null,
         // the successor is the leftmost node in the
         // right subtree
-        if (x.right != TNULL) {
+        if (x.right != NIL) {
             return minimum(x.right);
         }
 
         // else it is the lowest ancestor of x whose
         // left child is also an ancestor of x.
         Node y = x.parent;
-        while (y != TNULL && x == y.right) {
+        while (y != NIL && x == y.right) {
             x = y;
             y = y.parent;
         }
@@ -321,12 +318,12 @@ public class RedBlackTree {
         // if the left subtree is not null,
         // the predecessor is the rightmost node in the
         // left subtree
-        if (x.left != TNULL) {
+        if (x.left != NIL) {
             return maximum(x.left);
         }
 
         Node y = x.parent;
-        while (y != TNULL && x == y.left) {
+        while (y != NIL && x == y.left) {
             x = y;
             y = y.parent;
         }
@@ -337,7 +334,7 @@ public class RedBlackTree {
     public void leftRotate(Node x) {
         Node y = x.right;
         x.right = y.left;
-        if (y.left != TNULL) {
+        if (y.left != NIL) {
             y.left.parent = x;
         }
         y.parent = x.parent;
@@ -356,7 +353,7 @@ public class RedBlackTree {
     public void rightRotate(Node x) {
         Node y = x.left;
         x.left = y.right;
-        if (y.right != TNULL) {
+        if (y.right != NIL) {
             y.right.parent = x;
         }
         y.parent = x.parent;
@@ -375,11 +372,11 @@ public class RedBlackTree {
     // and fix the tree
     public void insert(Process proc) {
         // Ordinary Binary Search Insertion
-        Node node = new Node(proc, TNULL, TNULL);
+        Node node = new Node(proc, NIL, NIL);
         Node y = null;
         Node x = this.root;
 
-        while (x != TNULL) {
+        while (x != NIL) {
             y = x;
             if (node.getKey() < x.getKey()) {
                 x = x.left;

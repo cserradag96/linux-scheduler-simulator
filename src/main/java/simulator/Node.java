@@ -8,17 +8,17 @@ class Node {
     public Process proc;   // Holds the key
 
     public Node() {
-        this.color = 1;
-        this.left = null;
-        this.parent = null;
-        this.right = null;
-        this.proc = null;
+        color = 0;
+        left = null;
+        parent = null;
+        right = null;
+        proc = null;
     }
 
     public Node(Process proc, Node left, Node right) {
-        this.color = 1;
+        color = 1;
+        parent = null;
         this.left = left;
-        this.parent = null;
         this.right = right;
         this.proc = proc;
     }
