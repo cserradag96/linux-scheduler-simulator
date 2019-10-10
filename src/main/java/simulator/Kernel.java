@@ -2,23 +2,33 @@ package simulator;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Kernel {
+public class Kernel implements Runnable {
     public int coresCount;
     public IOQueue ioQueue;
-    public List<Processor> cores;
+    private static Processor [] cores;
+    private static Thread [] coresThread;
 
     public Kernel(int coresCount) {
         this.coresCount = coresCount;
+        cores = new Processor[coresCount];
+        coresThread = new Thread[coresCount];
         ioQueue = new IOQueue();
-        cores = new ArrayList<Processor>();
 
         for(int i = 0; i < coresCount; i++) {
-            cores.add(new Processor(this));
+            cores[i] = new Processor(this);
+            coresThread[i] = new Thread(cores[i]);
+        }
+    }
+
+    public void run() {
+        for(int i = 0; i < coresCount; i++) {
+            coresThread[i].start();
         }
 
-        cores.get(0).add(new Process("proc0"));
-        cores.get(0).add(new Process("proc1"));
-        cores.get(0).add(new Process("proc2"));
-        cores.get(0).add(new Process("proc3"));
+        // Add startup process here
+        cores[0].add(new Process("proc0"));
+        cores[0].add(new Process("proc1"));
+        cores[0].add(new Process("proc2"));
+        cores[0].add(new Process("proc3"));
     }
 }
