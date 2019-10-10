@@ -4,16 +4,16 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 public class Processor implements Runnable {
-    private static int quantum = 1000;
+    private final int quantum = 42;
 
-    public RedBlackTree runQueue;
+    public RunQueue runQueue;
     public Dispatcher dispatcher;
     public Kernel kernel;
     public Process currentProc;
     public Timer timer;
 
     public Processor(Kernel kernel) {
-        this.runQueue = new RedBlackTree();
+        this.runQueue = new RunQueue();
         this.dispatcher = new Dispatcher();
         this.kernel = kernel;
         this.currentProc = null;

@@ -1,10 +1,8 @@
 package simulator;
-import java.util.List;
-import java.util.ArrayList;
 
 public class Kernel implements Runnable {
     public int coresCount;
-    public IOQueue ioQueue;
+    private static Thread ioThread;
     private static Processor [] cores;
     private static Thread [] coresThread;
 
@@ -12,7 +10,7 @@ public class Kernel implements Runnable {
         this.coresCount = coresCount;
         cores = new Processor[coresCount];
         coresThread = new Thread[coresCount];
-        ioQueue = new IOQueue();
+        ioThread = new Thread(new IOQueue(this));
 
         for(int i = 0; i < coresCount; i++) {
             cores[i] = new Processor(this);
@@ -21,9 +19,13 @@ public class Kernel implements Runnable {
     }
 
     public void run() {
+        // Start processors
         for(int i = 0; i < coresCount; i++) {
             coresThread[i].start();
         }
+
+        // Start I/O
+        ioThread.start();
 
         // Add startup process here
         cores[0].add(new Process("proc0"));

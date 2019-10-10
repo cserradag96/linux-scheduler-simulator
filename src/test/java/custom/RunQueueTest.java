@@ -1,12 +1,12 @@
 package custom;
-import simulator.RedBlackTree;
+import simulator.RunQueue;
 import simulator.Process;
 import simulator.Node;
 
-public class RedBlackTreeTest {
+public class RunQueueTest {
   public static void main(String [] args) {
-      System.out.println("\nTest: RedBlackTree Class\n");
-      RedBlackTree tree = new RedBlackTree();
+      System.out.println("\nTest: RunQueue Class\n");
+      RunQueue tree = new RunQueue();
 
       // 1.1 Check Search: not found
       System.out.println("1.1 Search: not found");

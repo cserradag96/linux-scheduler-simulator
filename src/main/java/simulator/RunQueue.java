@@ -1,6 +1,6 @@
 package simulator;
 
-public class RedBlackTree {
+public class RunQueue {
     private Node root;
     private Node NIL;
 
@@ -240,7 +240,7 @@ public class RedBlackTree {
         }
     }
 
-    public RedBlackTree() {
+    public RunQueue() {
         NIL = new Node();
         root = NIL;
     }
