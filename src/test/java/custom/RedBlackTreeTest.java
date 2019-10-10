@@ -5,7 +5,6 @@ import simulator.Process;
 public class RedBlackTreeTest {
   public static void main(String [] args) {
       System.out.println("\nTest: RedBlackTree Class\n");
-
       RedBlackTree tree = new RedBlackTree();
 
       // 1.1 Check Search: not found
@@ -34,25 +33,25 @@ public class RedBlackTreeTest {
 
       // 3.1 Check Delete
       System.out.println("3.1 Check Delete");
-      tree.delete(15);
+      tree.delete(0);
       tree.inorder();
       System.out.println();
 
       // 3.2 Check Delete: not found
       System.out.println("3.1 Check Delete: not found");
-      tree.delete(15);
+      tree.delete(100);
       tree.inorder();
       System.out.println();
 
       // 3.3 Check Delete: Repeated
       System.out.println("3.1 Check Delete: Repeated (only one instance is deleted)");
-      tree.delete(8);
+      tree.delete(0);
       tree.inorder();
       System.out.println();
 
       // 3.4 Check Delete: Repeated (again)
       System.out.println("3.1 Check Delete: Repeated (again)");
-      tree.delete(8);
+      tree.delete(0);
       tree.inorder();
       System.out.println();
 
