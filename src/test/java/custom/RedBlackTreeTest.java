@@ -1,6 +1,7 @@
 package custom;
 import simulator.RedBlackTree;
 import simulator.Process;
+import simulator.Node;
 
 public class RedBlackTreeTest {
   public static void main(String [] args) {
@@ -13,27 +14,31 @@ public class RedBlackTreeTest {
 
       // 1.2 Check Search: found
       System.out.println("1.2 Check Search: found");
-      tree.insert(new Process("proc8"));
-      System.out.println(tree.search(0) == 0);
+      Process proc0 = new Process("proc0");
+      Node node0 = tree.insert(proc0);
+      System.out.println(tree.search(proc0.vruntime) == node0.getKey());
 
       // 2.1 Check Insert
       System.out.println("2.1 Check Insert");
-      tree.insert(new Process("proc18"));
-      tree.insert(new Process("proc5"));
-      tree.insert(new Process("proc15"));
+      Process proc1 = new Process("proc1");
+      Process proc2 = new Process("proc2");
+      Process proc3 = new Process("proc3");
+      Node node1 = tree.insert(proc1);
+      Node node2 = tree.insert(proc2);
+      Node node3 = tree.insert(proc3);
       tree.inorder();
       System.out.println();
 
       // 2.2 Check Insert: Repetition
       System.out.println("2.2 Check Insert: Repetition");
-      tree.insert(new Process("proc8"));
+      tree.insert(proc3);
       tree.inorder();
       System.out.println();
       tree.prettyPrint();
 
       // 3.1 Check Delete
       System.out.println("3.1 Check Delete");
-      tree.delete(0);
+      tree.delete(node0.getKey());
       tree.inorder();
       System.out.println();
 
@@ -45,13 +50,13 @@ public class RedBlackTreeTest {
 
       // 3.3 Check Delete: Repeated
       System.out.println("3.1 Check Delete: Repeated (only one instance is deleted)");
-      tree.delete(0);
+      tree.delete(node0.getKey());
       tree.inorder();
       System.out.println();
 
       // 3.4 Check Delete: Repeated (again)
       System.out.println("3.1 Check Delete: Repeated (again)");
-      tree.delete(0);
+      tree.delete(node0.getKey());
       tree.inorder();
       System.out.println();
 

@@ -21,6 +21,7 @@ public class Process extends PriorityPolicy {
         this.name = name;
         this.state = "ready";
         this.memory = 0;
+        // this.vruntime = (int)(Math.random() * 10);   // For test
         this.vruntime = 0;
         this.running = false;
         this.minCicles = setMinCicles();

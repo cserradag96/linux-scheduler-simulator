@@ -1,6 +1,6 @@
 package simulator;
 
-class Node {
+public class Node {
     public int color;      // 1 is Red, 0 is Black
     public Node left;      // Pointer to left child
     public Node parent;    // Pointer to the parent

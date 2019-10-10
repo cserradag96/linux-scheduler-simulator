@@ -370,7 +370,7 @@ public class RedBlackTree {
 
     // insert the key to the tree in its appropriate position
     // and fix the tree
-    public void insert(Process proc) {
+    public Node insert(Process proc) {
         // Ordinary Binary Search Insertion
         Node node = new Node(proc, NIL, NIL);
         Node y = null;
@@ -398,16 +398,17 @@ public class RedBlackTree {
         // if new node is a root node, simply return
         if (node.parent == null){
             node.color = 0;
-            return;
+            return node;
         }
 
         // if the grandparent is null, simply return
         if (node.parent.parent == null) {
-            return;
+            return node;
         }
 
         // Fix the tree
         fixInsert(node);
+        return node;
     }
 
     public Node getRoot(){
