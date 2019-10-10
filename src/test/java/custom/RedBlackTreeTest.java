@@ -13,20 +13,20 @@ public class RedBlackTreeTest {
 
       // 1.2 Check Search: found
       System.out.println("1.2 Check Search: found");
-      tree.insert(new Process(8, "proc8"));
+      tree.insert(new Process("proc8"));
       System.out.println(tree.search(0) == 0);
 
       // 2.1 Check Insert
       System.out.println("2.1 Check Insert");
-      tree.insert(new Process(18, "proc18"));
-      tree.insert(new Process(5, "proc5"));
-      tree.insert(new Process(15, "proc15"));
+      tree.insert(new Process("proc18"));
+      tree.insert(new Process("proc5"));
+      tree.insert(new Process("proc15"));
       tree.inorder();
       System.out.println();
 
       // 2.2 Check Insert: Repetition
       System.out.println("2.2 Check Insert: Repetition");
-      tree.insert(new Process(8, "proc8"));
+      tree.insert(new Process("proc8"));
       tree.inorder();
       System.out.println();
       tree.prettyPrint();

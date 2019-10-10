@@ -7,7 +7,7 @@ public class ProcessTest {
 
         // Test toJson method
         System.out.println("toJson:");
-        Process proc0 = new Process(0, "proc0");
+        Process proc0 = new Process("proc0");
         System.out.println(proc0.toJson());
 
         // Test fromJson method

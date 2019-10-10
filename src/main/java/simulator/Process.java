@@ -16,8 +16,8 @@ public class Process extends PriorityPolicy {
     private int ioRequest;
     private boolean running;
 
-    public Process(int pid, String name) {
-        this.pid = pid;
+    public Process(String name) {
+        this.pid = PidGenerator.getInstance().getUniqueId();
         this.name = name;
         this.state = "ready";
         this.memory = 0;
