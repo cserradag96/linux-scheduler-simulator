@@ -9,6 +9,7 @@ public class Kernel implements Runnable {
     private static Thread ioThread;
     private static Thread [] coresThread;
     private final Object lock = new Object();
+    private boolean writing = false;
 
     public Kernel(int coresCount) {
         this.coresCount = coresCount;
@@ -20,17 +21,22 @@ public class Kernel implements Runnable {
         ioThread = new Thread(io);
 
         for(int i = 0; i < coresCount; i++) {
-            cores[i] = new Processor(this);
+            cores[i] = new Processor(i, this);
             coresThread[i] = new Thread(cores[i]);
         }
     }
 
-    public void push(Process proc) {
-        cores[0].push(proc);
-
-        synchronized(lock) {
-            index = (index + 1) % coresCount;
+    public synchronized void push(Process proc) {
+        while (writing) {
+            try { wait(); }
+            catch (InterruptedException e) {}
         }
+
+        writing = true;
+        cores[index].push(proc);
+        index = (index + 1) % coresCount;
+        writing = false;
+        notify();
     }
 
     @Override
@@ -42,15 +48,5 @@ public class Kernel implements Runnable {
         for(int i = 0; i < coresCount; i++) {
             coresThread[i].start();
         }
-
-        // Add startup process here
-        push(new Process("proc0"));
-        push(new Process("proc1"));
-        push(new Process("proc2"));
-        push(new Process("proc3"));
-        push(new Process("proc4"));
-        push(new Process("proc5"));
-        push(new Process("proc6"));
-        push(new Process("proc7"));
     }
 }

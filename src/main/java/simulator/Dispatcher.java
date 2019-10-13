@@ -26,27 +26,29 @@ public class Dispatcher implements Runnable {
 
     public void contextChange() {
         if (!sleeping) {
-            Process prev = core.getCurrent();
+            synchronized(core.lock) {
+                Process prev = core.getCurrent();
 
-            if (prev != null) {
-                core.setCurrent(null);
+                if (prev != null) {
+                    core.setCurrent(null);
 
-                if (prev.isFinished()) core.log.pushProc(prev);
-                else {
-                    prev.updateVRuntime();
-                    if (prev.isBlocked()) core.kernel.io.push(prev);
+                    if (prev.isFinished()) core.log.pushProc(core, prev);
                     else {
-                        prev.setReady();
-                        core.runQueue.push(prev);
+                        prev.updateVRuntime();
+                        if (prev.isBlocked()) core.kernel.io.push(prev);
+                        else {
+                            prev.setReady();
+                            core.runQueue.push(prev);
+                        }
                     }
                 }
-            }
 
-            if (!core.runQueue.isEmpty()) {
-                Process next = core.runQueue.pop();
-                next.setRunning();
-                core.setCurrent(next);
-                sleep();
+                if (!core.runQueue.isEmpty()) {
+                    Process next = core.runQueue.pop();
+                    next.setRunning();
+                    core.setCurrent(next);
+                    sleep();
+                }
             }
         }
     }

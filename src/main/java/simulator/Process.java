@@ -1,6 +1,6 @@
 package simulator;
-import com.google.gson.Gson;
 import java.lang.Math;
+import com.google.gson.Gson;
 
 public class Process extends PriorityPolicy {
     public String name;
