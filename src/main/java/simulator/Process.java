@@ -110,7 +110,7 @@ public class Process extends PriorityPolicy {
     }
 
     private int setMinCicles() {
-        return (int)Math.pow(2, 10 + (int)(Math.random() * 10));
+        return (int)Math.pow(2, (int)(Math.random() * 10));
     }
 
     private int loadWeight() {
