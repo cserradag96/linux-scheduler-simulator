@@ -13,7 +13,7 @@ public class Log {
         write = true;
         String buf = "";
         buf += String.format("\nProcess %d:", proc.pid);
-        buf += String.format("\n  Cicles: %d", proc.runCicles);
+        buf += String.format("\n  Cicles: %d", proc.totalCicles);
         buf += String.format("\n  Memory: %d", proc.memory);
         buf += String.format("\n  I/O: %d", proc.ioRequest);
         buf += String.format("\n  State: " +  proc.state);

@@ -28,15 +28,11 @@ public class Processor implements Runnable {
     }
 
     public Process getCurrent() {
-        synchronized (lock) {
-            return currentProc;
-       }
+        return currentProc;
     }
 
     public void setCurrent(Process proc) {
-        synchronized (lock) {
-            this.currentProc = proc;
-        }
+        this.currentProc = proc;
     }
 
     @Override
@@ -46,13 +42,11 @@ public class Processor implements Runnable {
         while(true) {
             synchronized (lock) {
                 Process cur = getCurrent();
-                if (cur == null) {
-                    sleepingTime++;
-                    continue;
+                if (cur == null) sleepingTime++;
+                else {
+                    if (cur.isFinished()) dispatcher.wakeUp();
+                    else cur.run();
                 }
-
-                if (cur.isFinished()) dispatcher.wakeUp();
-                else cur.run();
             }
 
             workingTime++;
