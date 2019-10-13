@@ -29,9 +29,9 @@ public class Kernel implements Runnable {
         ioThread.start();
 
         // Add startup process here
-        cores[0].add(new Process("proc0"));
-        cores[0].add(new Process("proc1"));
-        cores[0].add(new Process("proc2"));
-        cores[0].add(new Process("proc3"));
+        cores[0].push(new Process("proc0"));
+        cores[0].push(new Process("proc1"));
+        cores[0].push(new Process("proc2"));
+        cores[0].push(new Process("proc3"));
     }
 }

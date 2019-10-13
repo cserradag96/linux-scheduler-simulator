@@ -21,7 +21,7 @@ public class Processor implements Runnable {
         sleepingTime = 0;
     }
 
-    public void add(Process proc) {
+    public void push(Process proc) {
         runQueue.push(proc);
     }
 
