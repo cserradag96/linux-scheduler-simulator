@@ -2,15 +2,13 @@ package simulator;
 
 public class Dispatcher implements Runnable {
     public Processor core;
-    public RunQueue queue;
 
     private final int quantum = 512;
     private int count;
     private boolean sleeping;
 
-    public Dispatcher(Processor core, RunQueue queue) {
+    public Dispatcher(Processor core) {
         this.core = core;
-        this.queue = queue;
         count = quantum;
         sleeping = false;
     }
@@ -33,16 +31,17 @@ public class Dispatcher implements Runnable {
             if (prev != null) {
                 core.setCurrent(null);
 
-                if (!prev.isFinished()) {
+                if (prev.isFinished()) core.log.pushProc(prev);
+                else {
                     prev.setReady();
                     prev.updateVRuntime();
-                    queue.push(prev);
+                    core.runQueue.push(prev);
                     prev = null;
                 }
             }
 
-            if (!queue.isEmpty()) {
-                Process next = queue.pop();
+            if (!core.runQueue.isEmpty()) {
+                Process next = core.runQueue.pop();
                 next.setRunning();
                 core.setCurrent(next);
                 sleep();

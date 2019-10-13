@@ -11,9 +11,9 @@ public class Process extends PriorityPolicy {
     public int memory;
     public int priority;
 
-    private int ioRequest;
-    private int minCicles;
-    private long runCicles;
+    public int ioRequest;
+    public int minCicles;
+    public long runCicles;
     public long totalCicles;
 
     public Process(String name) {
@@ -57,14 +57,6 @@ public class Process extends PriorityPolicy {
 
         if (finishProb() && totalCicles >= minCicles) {
             setZombie();
-
-            System.out.println(String.format("\nProcess %d:", pid));
-            System.out.println(String.format("  Cicles: %d", runCicles));
-            System.out.println(String.format("  Memory: %d", memory));
-            System.out.println(String.format("  I/O: %d", ioRequest));
-            System.out.println(String.format("  State: " +  state));
-            System.out.println(String.format("  V-Runtime: %d", vruntime));
-
         }
     }
 

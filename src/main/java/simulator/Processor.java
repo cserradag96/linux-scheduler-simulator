@@ -9,13 +9,15 @@ public class Processor implements Runnable {
     public long workingTime;
     public long sleepingTime;
 
-    private final Object lock = new Object();
+    public Log log;
+    public final Object lock = new Object();
 
     public Processor(Kernel kernel) {
         this.kernel = kernel;
 
+        log = new Log();
         runQueue = new RunQueue();
-        dispatcher = new Dispatcher(this, runQueue);
+        dispatcher = new Dispatcher(this);
         dispatcherThread = new Thread(dispatcher);
         workingTime = 0;
         sleepingTime = 0;
@@ -43,13 +45,14 @@ public class Processor implements Runnable {
 
         while(true) {
             synchronized (lock) {
-                if (getCurrent() == null) {
+                Process cur = getCurrent();
+                if (cur == null) {
                     sleepingTime++;
                     continue;
                 }
 
-                if (getCurrent().isFinished()) dispatcher.wakeUp();
-                else getCurrent().run();
+                if (cur.isFinished()) dispatcher.wakeUp();
+                else cur.run();
             }
 
             workingTime++;
