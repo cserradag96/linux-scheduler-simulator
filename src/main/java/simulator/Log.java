@@ -1,16 +1,16 @@
 package simulator;
 
 public class Log {
-    private boolean write = false;
+    private boolean writing = false;
     private String buf;
 
     public synchronized void pushProc(Process proc) {
-        while (write) {
+        while (writing) {
             try { wait(); }
             catch (InterruptedException e) {}
         }
 
-        write = true;
+        writing = true;
         String buf = "";
         buf += String.format("\nProcess %d:", proc.pid);
         buf += String.format("\n  Cicles: %d", proc.totalCicles);
@@ -19,7 +19,7 @@ public class Log {
         buf += String.format("\n  State: " +  proc.state);
         buf += String.format("\n  V-Runtime: %d", proc.vruntime);
         System.out.println(buf);
-        write = false;
+        writing = false;
         notify();
     }
 }

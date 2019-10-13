@@ -44,7 +44,7 @@ public class Processor implements Runnable {
                 Process cur = getCurrent();
                 if (cur == null) sleepingTime++;
                 else {
-                    if (cur.isFinished()) dispatcher.wakeUp();
+                    if (cur.isBlocked() || cur.isFinished()) dispatcher.wakeUp();
                     else cur.run();
                 }
             }

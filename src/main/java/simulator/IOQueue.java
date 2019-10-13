@@ -4,36 +4,32 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class IOQueue implements Runnable {
-    private List<Process> queue;
     private Kernel kernel;
-    private final int delay = 5;
+    private List<Process> queue;
+    private final Object lock = new Object();
 
     public IOQueue(Kernel kernel) {
-        queue = new ArrayList<Process>();
         this.kernel = kernel;
+        queue = new ArrayList<Process>();
     }
 
-    public void add(Process proc) {
+    public void push(Process proc) {
         queue.add(proc);
     }
 
     public boolean ioProb() {
-        return Math.random() * Math.random() > 0.85;
+        return Math.random() > 0.5;
     }
 
     @Override
     public void run() {
         while(true) {
-            if (!queue.isEmpty() && ioProb()) {
-                // Llamar al dispatcher para que lleve el proceso al runqueue
-                System.out.println("I/O");
-            }
-
-            try {
-                Thread.sleep(delay);
-            }
-            catch (InterruptedException e) {
-                System.err.println(e.getMessage());
+           synchronized(lock) {
+                if (!queue.isEmpty() && ioProb()) {
+                    Process proc = queue.remove(0);
+                    proc.setReady();
+                    kernel.push(proc);
+                }
             }
         }
     }

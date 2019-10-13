@@ -1,16 +1,23 @@
 package simulator;
 
 public class Kernel implements Runnable {
+    private int index;
     public int coresCount;
+    public static IOQueue io;
+    public static Processor [] cores;
+
     private static Thread ioThread;
-    private static Processor [] cores;
     private static Thread [] coresThread;
+    private final Object lock = new Object();
 
     public Kernel(int coresCount) {
         this.coresCount = coresCount;
+
+        index = 0;
         cores = new Processor[coresCount];
         coresThread = new Thread[coresCount];
-        ioThread = new Thread(new IOQueue(this));
+        io = new IOQueue(this);
+        ioThread = new Thread(io);
 
         for(int i = 0; i < coresCount; i++) {
             cores[i] = new Processor(this);
@@ -18,24 +25,32 @@ public class Kernel implements Runnable {
         }
     }
 
+    public void push(Process proc) {
+        cores[0].push(proc);
+
+        synchronized(lock) {
+            index = (index + 1) % coresCount;
+        }
+    }
+
     @Override
     public void run() {
+        // Start I/O
+        ioThread.start();
+
         // Start processors
         for(int i = 0; i < coresCount; i++) {
             coresThread[i].start();
         }
 
-        // Start I/O
-        ioThread.start();
-
         // Add startup process here
-        cores[0].push(new Process("proc0"));
-        cores[3].push(new Process("proc1"));
-        cores[1].push(new Process("proc2"));
-        cores[3].push(new Process("proc3"));
-        cores[2].push(new Process("proc4"));
-        cores[1].push(new Process("proc5"));
-        cores[0].push(new Process("proc6"));
-        cores[0].push(new Process("proc7"));
+        push(new Process("proc0"));
+        push(new Process("proc1"));
+        push(new Process("proc2"));
+        push(new Process("proc3"));
+        push(new Process("proc4"));
+        push(new Process("proc5"));
+        push(new Process("proc6"));
+        push(new Process("proc7"));
     }
 }
