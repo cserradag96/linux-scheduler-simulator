@@ -11,9 +11,9 @@ public class Process extends PriorityPolicy {
     public int vruntime;
     public int priority;
 
-    private int minCicles;
-    private int runCicles;
     private int ioRequest;
+    private int minCicles;
+    private long runCicles;
     private boolean running;
 
     public Process(String name) {
@@ -44,23 +44,23 @@ public class Process extends PriorityPolicy {
     }
 
     public void run() {
-        running = true;
-        while(running) {
-            runCicles++;
-            updateMemory();
+        runCicles++;
+        updateMemory();
 
-            if (ioProb()) {
-                ioRequest++;
-            }
-
-            if (finishProb() && runCicles >= minCicles) {
-                running = false;
-                System.out.println(String.format("\nProcess %d:", pid));
-                System.out.println(String.format("  Cicles: %d", runCicles));
-                System.out.println(String.format("  Memory: %d", memory));
-                System.out.println(String.format("  I/O: %d", ioRequest));
-            }
+        if (ioProb()) {
+            ioRequest++;
         }
+
+        if (finishProb() && runCicles >= minCicles) {
+            System.out.println(String.format("\nProcess %d:", pid));
+            System.out.println(String.format("  Cicles: %d", runCicles));
+            System.out.println(String.format("  Memory: %d", memory));
+            System.out.println(String.format("  I/O: %d", ioRequest));
+        }
+    }
+
+    public boolean finished() {
+        return !running;
     }
 
     private void updateMemory() {

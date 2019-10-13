@@ -1,42 +1,43 @@
 package simulator;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.Timer;
 
 public class Processor implements Runnable {
-    private final int quantum = 42;
-
     public RunQueue runQueue;
     public Dispatcher dispatcher;
+    public Thread dispatcherThread;
     public Kernel kernel;
     public Process currentProc;
-    public Timer timer;
+    public long workingTime;
+    public long sleepingTime;
 
     public Processor(Kernel kernel) {
-        this.runQueue = new RunQueue();
-        this.dispatcher = new Dispatcher();
         this.kernel = kernel;
-        this.currentProc = null;
-        this.timer = setTimer();
+
+        runQueue = new RunQueue();
+        dispatcher = new Dispatcher(this);
+        dispatcherThread = new Thread(dispatcher);
+        currentProc = null;
+        workingTime = 0;
+        sleepingTime = 0;
     }
 
     public void add(Process proc) {
-        this.runQueue.insert(proc);
+        runQueue.add(proc);
     }
 
-    public Timer setTimer() {
-        return new Timer(quantum, new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Llamar al dispatcher para que haga el cambio de contexto
-                System.out.println("HA HA HA!");
-                timer.stop();
-            }
-        });
-    }
-
+    @Override
     public void run() {
-        timer.start();
-        while(true) {}
+        dispatcherThread.start();
+
+        while(true) {
+            if (currentProc == null) {
+                sleepingTime++;
+                continue;
+            }
+
+            if (currentProc.finished()) dispatcher.contextChange();
+            else currentProc.run();
+
+            workingTime++;
+        }
     }
 }

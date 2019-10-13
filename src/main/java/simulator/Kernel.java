@@ -18,6 +18,7 @@ public class Kernel implements Runnable {
         }
     }
 
+    @Override
     public void run() {
         // Start processors
         for(int i = 0; i < coresCount; i++) {
