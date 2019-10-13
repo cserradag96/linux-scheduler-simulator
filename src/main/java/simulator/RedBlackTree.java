@@ -3,6 +3,7 @@ package simulator;
 public class RedBlackTree {
     private Node root;
     private Node NIL;
+    public int count;
 
     private void preOrderHelper(Node node) {
         if (node != NIL) {
@@ -165,9 +166,56 @@ public class RedBlackTree {
             y.left.parent = y;
             y.color = z.color;
         }
+
         if (yOriginalColor == 0){
             fixDelete(x);
         }
+
+        // Decrement count
+        count--;
+    }
+
+    public void deleteNode(Node z) {
+        // find the node containing key
+        Node x, y;
+
+        if (z == NIL) {
+            System.out.println("Couldn't find key in the tree");
+            return;
+        }
+
+        y = z;
+        int yOriginalColor = y.color;
+        if (z.left == NIL) {
+            x = z.right;
+            rbTransplant(z, z.right);
+        } else if (z.right == NIL) {
+            x = z.left;
+            rbTransplant(z, z.left);
+        } else {
+            y = minFromNode(z.right);
+            yOriginalColor = y.color;
+            x = y.right;
+            if (y.parent == z) {
+                x.parent = y;
+            } else {
+                rbTransplant(y, y.right);
+                y.right = z.right;
+                y.right.parent = y;
+            }
+
+            rbTransplant(z, y);
+            y.left = z.left;
+            y.left.parent = y;
+            y.color = z.color;
+        }
+
+        if (yOriginalColor == 0){
+            fixDelete(x);
+        }
+
+        // Decrement count
+        count--;
     }
 
     // fix the red-black tree
@@ -243,6 +291,7 @@ public class RedBlackTree {
     public RedBlackTree() {
         NIL = Node.nil();
         root = NIL;
+        count = 0;
     }
 
     // Pre-Order traversal
@@ -404,6 +453,9 @@ public class RedBlackTree {
         } else {
             y.right = node;
         }
+
+        // Increment count
+        count++;
 
         // if new node is a root node, simply return
         if (node.parent == null){

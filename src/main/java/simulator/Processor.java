@@ -9,19 +9,32 @@ public class Processor implements Runnable {
     public long workingTime;
     public long sleepingTime;
 
+    private final Object lock = new Object();
+
     public Processor(Kernel kernel) {
         this.kernel = kernel;
 
         runQueue = new RunQueue();
-        dispatcher = new Dispatcher(this);
+        dispatcher = new Dispatcher(this, runQueue);
         dispatcherThread = new Thread(dispatcher);
-        currentProc = null;
         workingTime = 0;
         sleepingTime = 0;
     }
 
     public void add(Process proc) {
-        runQueue.add(proc);
+        runQueue.push(proc);
+    }
+
+    public Process getCurrent() {
+        synchronized (lock) {
+            return currentProc;
+       }
+    }
+
+    public void setCurrent(Process proc) {
+        synchronized (lock) {
+            this.currentProc = proc;
+        }
     }
 
     @Override
@@ -29,13 +42,15 @@ public class Processor implements Runnable {
         dispatcherThread.start();
 
         while(true) {
-            if (currentProc == null) {
-                sleepingTime++;
-                continue;
-            }
+            synchronized (lock) {
+                if (getCurrent() == null) {
+                    sleepingTime++;
+                    continue;
+                }
 
-            if (currentProc.finished()) dispatcher.contextChange();
-            else currentProc.run();
+                if (getCurrent().isFinished()) dispatcher.wakeUp();
+                else getCurrent().run();
+            }
 
             workingTime++;
         }

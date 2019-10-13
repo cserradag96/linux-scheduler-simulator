@@ -30,7 +30,7 @@ public class Node {
         return NIL;
     }
 
-    public int getKey() {
-        return proc != null ? proc.vruntime : null;
+    public Integer getKey() {
+        return proc != null ? proc.vruntime : Integer.MAX_VALUE;
     }
 }

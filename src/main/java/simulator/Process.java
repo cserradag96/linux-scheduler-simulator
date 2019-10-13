@@ -5,28 +5,29 @@ import java.lang.Math;
 public class Process extends PriorityPolicy {
     public String name;
     public String state;
+    public int vruntime;
 
     public int pid;
     public int memory;
-    public int vruntime;
     public int priority;
 
     private int ioRequest;
     private int minCicles;
     private long runCicles;
-    private boolean running;
+    public long totalCicles;
 
     public Process(String name) {
-        this.pid = PidGenerator.instance().getPid();
         this.name = name;
-        this.state = "ready";
-        this.memory = 0;
-        // this.vruntime = (int)(Math.random() * 10);   // For test
-        this.vruntime = 0;
-        this.running = false;
-        this.minCicles = setMinCicles();
-        this.runCicles = 0;
-        this.ioRequest = 0;
+
+        pid = PidGenerator.instance().getPid();
+        state = "ready";
+        memory = 0;
+        vruntime = 0;
+        minCicles = setMinCicles();
+        runCicles = 0;
+        totalCicles = 0;
+        ioRequest = 0;
+        priority = 120;
     }
 
     public String toJson() {
@@ -39,28 +40,68 @@ public class Process extends PriorityPolicy {
         return gson.fromJson(proc, Process.class);
     }
 
-    public void updateVRuntime(int runtime) {
-        vruntime += (runtime * NICE_0_VALUE) / loadWeight();
+    public void updateVRuntime() {
+        vruntime += (runCicles * NICE_0_VALUE) / loadWeight();
+        runCicles = 0;
     }
 
     public void run() {
+        totalCicles++;
         runCicles++;
         updateMemory();
 
         if (ioProb()) {
+            setBlocked();
             ioRequest++;
         }
 
-        if (finishProb() && runCicles >= minCicles) {
+        if (finishProb() && totalCicles >= minCicles) {
+            setZombie();
+
             System.out.println(String.format("\nProcess %d:", pid));
             System.out.println(String.format("  Cicles: %d", runCicles));
             System.out.println(String.format("  Memory: %d", memory));
             System.out.println(String.format("  I/O: %d", ioRequest));
+            System.out.println(String.format("  State: " +  state));
+            System.out.println(String.format("  V-Runtime: %d", vruntime));
+
         }
     }
 
-    public boolean finished() {
-        return !running;
+    public boolean isFinished() {
+        return isZombie();
+    }
+
+    public boolean isZombie() {
+        return state == "zombie";
+    }
+
+    public boolean isBlocked() {
+        return state == "blocked";
+    }
+
+    public boolean isReady() {
+        return state == "ready";
+    }
+
+    public boolean isRunning() {
+        return state == "running";
+    }
+
+    public void setReady() {
+        state = "ready";
+    }
+
+    public void setRunning() {
+         state = "running";
+    }
+
+    public void setZombie() {
+        state = "zombie";
+    }
+
+    public void setBlocked() {
+        state = "blocked";
     }
 
     private void updateMemory() {
