@@ -30,8 +30,12 @@ public class Kernel implements Runnable {
 
         // Add startup process here
         cores[0].push(new Process("proc0"));
-        cores[0].push(new Process("proc1"));
-        cores[0].push(new Process("proc2"));
-        cores[0].push(new Process("proc3"));
+        cores[3].push(new Process("proc1"));
+        cores[1].push(new Process("proc2"));
+        cores[3].push(new Process("proc3"));
+        cores[2].push(new Process("proc4"));
+        cores[1].push(new Process("proc5"));
+        cores[0].push(new Process("proc6"));
+        cores[0].push(new Process("proc7"));
     }
 }
