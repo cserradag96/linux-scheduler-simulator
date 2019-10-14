@@ -3,8 +3,14 @@ package simulator;
 public class RunQueue extends RedBlackTree {
     private boolean writing = false;
 
-    public boolean isEmpty() {
-        return count == 0;
+    public synchronized boolean isEmpty() {
+        while (writing) {
+            try { wait(); }
+            catch (InterruptedException e) {}
+        }
+
+        notify();
+        return size() <= 1;
     }
 
     public synchronized void push(Process proc) {
@@ -19,13 +25,17 @@ public class RunQueue extends RedBlackTree {
         notify();
     }
 
-    public int length() {
-        return count;
-    }
-
     public synchronized Process pop() {
-        Node node = min();
-        deleteNode(node);
-        return node.proc;
+        while (writing) {
+            try { wait(); }
+            catch (InterruptedException e) {}
+        }
+
+        writing = true;
+        Node node = treeMinimum(root);
+        remove(node);
+        writing = false;
+        notify();
+        return node.key;
     }
 }

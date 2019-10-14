@@ -26,17 +26,11 @@ public class Kernel implements Runnable {
         }
     }
 
-    public synchronized void push(Process proc) {
-        while (writing) {
-            try { wait(); }
-            catch (InterruptedException e) {}
+    public void push(Process proc) {
+        synchronized (lock) {
+            cores[index].push(proc);
+            index = (index + 1) % coresCount;
         }
-
-        writing = true;
-        cores[index].push(proc);
-        index = (index + 1) % coresCount;
-        writing = false;
-        notify();
     }
 
     @Override

@@ -2,7 +2,7 @@ package simulator;
 import java.lang.Math;
 import com.google.gson.Gson;
 
-public class Process extends PriorityPolicy {
+public class Process extends PriorityPolicy implements Comparable<Process> {
     public String name;
     public String state;
     public int vruntime;
@@ -115,5 +115,11 @@ public class Process extends PriorityPolicy {
 
     private int loadWeight() {
         return SCHEDULER_PRIORITY_TO_WEIGHT[userPriority(priority)];
+    }
+
+    public int compareTo(Process proc) {
+        if (this.vruntime < proc.vruntime) return -1;
+        else if (this.vruntime > proc.vruntime) return 1;
+        return 0;
     }
 }

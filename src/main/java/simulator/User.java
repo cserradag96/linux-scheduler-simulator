@@ -5,7 +5,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 public class User implements Runnable {
     private Kernel kernel;
     private final Object lock = new Object();
-    private final int delay = 10000;
+    private final int delay = 50000;
 
     public User(Kernel kernel) {
         this.kernel = kernel;
