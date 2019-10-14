@@ -1,14 +1,8 @@
 package simulator;
-
-// Inclusions
-
 import java.util.ArrayList;
 import java.util.List;
 
-// Class Definitions
 public class RedBlackTree {
-
-    // Root initialized to nil.
     private Node nil = new Node();
     public Node root = nil;
 
@@ -52,8 +46,7 @@ public class RedBlackTree {
         // Finish of the leftRotate
         y.left = x;
         x.parent = y;
-    }// end leftRotate(Node x)
-
+    }
 
     // @param: x, The node which the leftRotate is to be performed on.
     // Updates the numLeft & numRight values affected by leftRotate.
@@ -79,8 +72,8 @@ public class RedBlackTree {
         else if (!isNil(x.left) && isNil(x.right.left)){
             x.numRight = 0;
             x.right.numLeft = 2 + x.left.numLeft + x.left.numRight;
-
         }
+
         // Case 4: x.left and x.right.left both exist in addtion to Case 1
         else{
             x.numRight = 1 + x.right.left.numLeft +
@@ -88,9 +81,7 @@ public class RedBlackTree {
             x.right.numLeft = 3 + x.left.numLeft + x.left.numRight +
             x.right.left.numLeft + x.right.left.numRight;
         }
-
-    }// end leftRotateFixup(Node x)
-
+    }
 
     // @param: x, The node which the rightRotate is to be performed on.
     // Updates the numLeft and numRight values affected by the Rotate.
@@ -122,9 +113,7 @@ public class RedBlackTree {
         x.right = y;
 
         y.parent = x;
-
-    }// end rightRotate(Node y)
-
+    }
 
     // @param: y, the node around which the righRotate is to be performed.
     // Updates the numLeft and numRight values affected by the rotate
@@ -161,9 +150,7 @@ public class RedBlackTree {
                   y.right.numLeft +
             y.left.right.numRight + y.left.right.numLeft;
         }
-
-    }// end rightRotateFixup(Node y)
-
+    }
 
     public void insert(Process key) {
         insert(new Node(key));
@@ -173,64 +160,60 @@ public class RedBlackTree {
     // Inserts z into the appropriate position in the RedBlackTree while
     // updating numLeft and numRight values.
     private void insert(Node z) {
+        // Create a reference to root & initialize a node to nil
+        Node y = nil;
+        Node x = root;
 
-            // Create a reference to root & initialize a node to nil
-            Node y = nil;
-            Node x = root;
+        // While we haven't reached a the end of the tree keep
+        // tryint to figure out where z should go
+        while (!isNil(x)){
+            y = x;
 
-            // While we haven't reached a the end of the tree keep
-            // tryint to figure out where z should go
-            while (!isNil(x)){
-                y = x;
+            // if z.key is < than the current key, go left
+            if (z.key.compareTo(x.key) < 0){
 
-                // if z.key is < than the current key, go left
-                if (z.key.compareTo(x.key) < 0){
-
-                    // Update x.numLeft as z is < than x
-                    x.numLeft++;
-                    x = x.left;
-                }
-
-                // else z.key >= x.key so go right.
-                else{
-
-                    // Update x.numGreater as z is => x
-                    x.numRight++;
-                    x = x.right;
-                }
+                // Update x.numLeft as z is < than x
+                x.numLeft++;
+                x = x.left;
             }
-            // y will hold z's parent
-            z.parent = y;
 
-            // Depending on the value of y.key, put z as the left or
-            // right child of y
-            if (isNil(y))
-                root = z;
-            else if (z.key.compareTo(y.key) < 0)
-                y.left = z;
-            else
-                y.right = z;
+            // else z.key >= x.key so go right.
+            else{
 
-            // Initialize z's children to nil and z's color to red
-            z.left = nil;
-            z.right = nil;
-            z.color = Node.RED;
+                // Update x.numGreater as z is => x
+                x.numRight++;
+                x = x.right;
+            }
+        }
+        // y will hold z's parent
+        z.parent = y;
 
-            // Call insertFixup(z)
-            insertFixup(z);
+        // Depending on the value of y.key, put z as the left or
+        // right child of y
+        if (isNil(y))
+            root = z;
+        else if (z.key.compareTo(y.key) < 0)
+            y.left = z;
+        else
+            y.right = z;
 
-    }// end insert(Node z)
+        // Initialize z's children to nil and z's color to red
+        z.left = nil;
+        z.right = nil;
+        z.color = Node.RED;
 
+        // Call insertFixup(z)
+        insertFixup(z);
+    }
 
     // @param: z, the node which was inserted and may have caused a violation
     // of the RedBlackTree properties
     // Fixes up the violation of the RedBlackTree properties that may have
     // been caused during insert(z)
     private void insertFixup(Node z){
-
         Node y = nil;
         // While there is a violation of the RedBlackTree properties..
-        while (z.parent.color == Node.RED){
+        while (z.parent.color == Node.RED) {
 
             // If z's parent is the the left child of it's parent.
             if (z.parent == z.parent.parent.left){
@@ -291,28 +274,25 @@ public class RedBlackTree {
                 }
             }
         }
-    // Color root black at all times
-    root.color = Node.BLACK;
 
-    }// end insertFixup(Node z)
+        // Color root black at all times
+        root.color = Node.BLACK;
+    }
 
     // @param: node, a Node
     // @param: node, the node with the smallest key rooted at node
     public Node treeMinimum(Node node){
-
         // while there is a smaller key, keep going left
         while (!isNil(node.left))
             node = node.left;
         return node;
-    }// end treeMinimum(Node node)
-
+    }
 
 
     // @param: x, a Node whose successor we must find
     // @return: return's the node the with the next largest key
     // from x.key
     public Node treeSuccessor(Node x){
-
         // if x.left is not nil, call treeMinimum(x.right) and
         // return it's value
         if (!isNil(x.left) )
@@ -328,8 +308,7 @@ public class RedBlackTree {
         }
         // Return successor
         return y;
-    }// end treeMinimum(Node x)
-
+    }
 
     // @param: z, the Node which is to be removed from the the tree
     // Remove's z from the RedBlackTree rooted at root
@@ -382,17 +361,14 @@ public class RedBlackTree {
         // RedBlackTree properties so call removeFixup()
         if (y.color == Node.BLACK)
             removeFixup(x);
-    }// end remove(Node z)
-
+    }
 
     // @param: y, the Node which was actually deleted from the tree
     // @param: key, the value of the key that used to be in y
     private void fixNodeData(Node x, Node y){
-
         // Initialize two variables which will help us traverse the tree
         Node current = nil;
         Node track = nil;
-
 
         // if x is nil, then we will start updating at y.parent
         // Set track to y, y.parent's child
@@ -403,7 +379,7 @@ public class RedBlackTree {
 
         // if x is not nil, then we start updating at x.parent
         // Set track to x, x.parent's child
-        else{
+        else {
             current = x.parent;
             track = x;
         }
@@ -447,17 +423,13 @@ public class RedBlackTree {
             // update track and current
             track = current;
             current = current.parent;
-
         }
-
-    }//end fixNodeData()
-
+    }
 
     // @param: x, the child of the deleted node from remove(Node v)
     // Restores the Red Black properties that may have been violated during
     // the removal of a node in remove(Node v)
     private void removeFixup(Node x){
-
         Node w;
 
         // While we haven't fixed the tree completely...
@@ -539,22 +511,17 @@ public class RedBlackTree {
                     x = root;
                 }
             }
-        }// end while
-
+        }
         // set x to black to ensure there is no violation of
         // RedBlack tree Properties
         x.color = Node.BLACK;
-    }// end removeFixup(Node x)
-
-
-
+    }
 
     // @param: key, the key whose node we want to search for
     // @return: returns a node with the key, key, if not found, returns null
     // Searches for a node with key k and returns the first such node, if no
     // such node is found returns null
     public Node search(Process key){
-
         // Initialize a pointer to the root to traverse the tree
         Node current = root;
 
@@ -563,7 +530,6 @@ public class RedBlackTree {
 
             // If we have found a node with a key equal to key
             if (current.key.equals(key))
-
                 // return that node and exit search(int)
                 return current;
 
@@ -578,37 +544,28 @@ public class RedBlackTree {
 
         // we have not found a node whose key is "key"
         return null;
-
-
-    }// end search(int key)
+    }
 
     // @param: key, any Comparable object
     // @return: return's the number of elements greater than key
     public int numGreater(Process key){
-
         // Call findNumGreater(root, key) which will return the number
         // of nodes whose key is greater than key
         return findNumGreater(root,key);
-
-    }// end numGreater(int key)
-
+    }
 
     // @param: key, any Comparable object
     // @return: return's teh number of elements smaller than key
     public int numSmaller(Process key){
-
         // Call findNumSmaller(root,key) which will return
         // the number of nodes whose key is greater than key
         return findNumSmaller(root,key);
-
-    }// end numSmaller(int key)
-
+    }
 
     // @param: node, the root of the tree, the key who we must
     // compare other node key's to.
     // @return: the number of nodes greater than key.
     public int findNumGreater(Node node, Process key){
-
         // Base Case: if node is nil, return 0
         if (isNil(node))
             return 0;
@@ -621,14 +578,12 @@ public class RedBlackTree {
         // all elements to the left of node are smaller than key
         else
             return findNumGreater(node.right,key);
-
-    }// end findNumGreater(Node, int key)
+    }
 
     // @param: node, the root of the tree, the key who we must compare other
     // node key's to.
     // @return: the number of nodes smaller than key.
     public int findNumSmaller(Node node, Process key){
-
         // Base Case: if node is nil, return 0
         if (isNil(node)) return 0;
 
@@ -642,29 +597,21 @@ public class RedBlackTree {
         // to the right.
         else
             return 1+ node.numLeft + findNumSmaller(node.right,key);
-
-    }// end findNumSmaller(Node nod, int key)
-
+    }
 
     // @param: node, the Node we must check to see whether it's nil
     // @return: return's true of node is nil and false otherwise
     private boolean isNil(Node node){
-
         // return appropriate value
         return node == nil;
-
-    }// end isNil(Node node)
-
+    }
 
     // @return: return's the size of the tree
     // Return's the # of nodes including the root which the RedBlackTree
     // rooted at root has.
     public int size(){
-
         // Return the number of nodes to the root's left + the number of
         // nodes on the root's right + the root itself.
         return root.numLeft + root.numRight + 1;
-    }// end size()
-
-}// end class RedBlackTree
-
+    }
+}

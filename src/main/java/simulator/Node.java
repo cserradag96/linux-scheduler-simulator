@@ -4,15 +4,14 @@ public class Node {
     public static final int BLACK = 0;
     public static final int RED = 1;
     public Process key;
-
-    Node parent;
-    Node left;
-    Node right;
+    public Node parent;
+    public Node left;
+    public Node right;
     public int numLeft = 0;
     public int numRight = 0;
     public int color;
 
-    Node(){
+    Node() {
         color = BLACK;
         numLeft = 0;
         numRight = 0;
@@ -21,7 +20,7 @@ public class Node {
         right = null;
     }
 
-    Node(Process key){
+    Node(Process key) {
         this();
         this.key = key;
     }
