@@ -9,9 +9,7 @@ public class Processor implements Runnable {
     public long workingTime;
     public long sleepingTime;
     public int id;
-
     public Log log;
-    public final Object lock = new Object();
 
     public Processor(int id, Kernel kernel) {
         this.id = id;
@@ -42,16 +40,13 @@ public class Processor implements Runnable {
         dispatcherThread.start();
 
         while(true) {
-            synchronized (lock) {
-                Process cur = getCurrent();
-                if (cur == null) sleepingTime++;
-                else {
-                    if (cur.isBlocked() || cur.isFinished()) dispatcher.wakeUp();
-                    else cur.run();
-                }
+            Process cur = getCurrent();
+            if (cur == null) sleepingTime++;
+            else {
+                if (cur.isBlocked() || cur.isFinished()) dispatcher.wakeUp();
+                else cur.run();
+                workingTime++;
             }
-
-            workingTime++;
         }
     }
 }
