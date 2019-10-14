@@ -1,36 +1,27 @@
 package simulator;
 
 public class Node {
-    private static Node NIL = null;
+    public static final int BLACK = 0;
+    public static final int RED = 1;
+    public Process key;
+    public Node parent;
+    public Node left;
+    public Node right;
+    public int numLeft = 0;
+    public int numRight = 0;
+    public int color;
 
-    public int color;      // 1 is Red, 0 is Black
-    public Node left;      // Pointer to left child
-    public Node parent;    // Pointer to the parent
-    public Node right;     // Pointer to right child
-    public Process proc;   // Holds the key
-
-    public Node() {
-        color = 0;
-        left = null;
+    Node() {
+        color = BLACK;
+        numLeft = 0;
+        numRight = 0;
         parent = null;
+        left = null;
         right = null;
-        proc = null;
     }
 
-    public Node(Process proc) {
-        color = 1;
-        parent = nil();
-        this.left = nil();
-        this.right = nil();
-        this.proc = proc;
-    }
-
-    public static Node nil() {
-        if (NIL == null) NIL = new Node();
-        return NIL;
-    }
-
-    public Integer getKey() {
-        return proc != null ? proc.vruntime : Integer.MAX_VALUE;
+    Node(Process key) {
+        this();
+        this.key = key;
     }
 }

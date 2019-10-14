@@ -6,6 +6,7 @@ public class Dispatcher implements Runnable {
     private final int quantum = 512;
     private int count;
     private boolean sleeping;
+    public final Object lock = new Object();
 
     public Dispatcher(Processor core) {
         this.core = core;
@@ -14,8 +15,10 @@ public class Dispatcher implements Runnable {
     }
 
     public void wakeUp() {
-        count = quantum;
-        sleeping = false;
+        synchronized (lock) {
+            count = quantum;
+            sleeping = false;
+        }
     }
 
     public void sleep() {
@@ -31,7 +34,7 @@ public class Dispatcher implements Runnable {
             if (prev != null) {
                 core.setCurrent(null);
 
-                if (prev.isFinished()) core.log.pushProc(prev);
+                if (prev.isFinished()) core.log.pushProc(core, prev);
                 else {
                     prev.updateVRuntime();
                     if (prev.isBlocked()) core.kernel.io.push(prev);
@@ -42,11 +45,15 @@ public class Dispatcher implements Runnable {
                 }
             }
 
-            if (!core.runQueue.isEmpty()) {
-                Process next = core.runQueue.pop();
-                next.setRunning();
-                core.setCurrent(next);
-                sleep();
+            synchronized (lock) {
+                if (!core.runQueue.isEmpty()) {
+                    Process next = core.runQueue.pop();
+                    if (next != null) {
+                        next.setRunning();
+                        core.setCurrent(next);
+                        sleep();
+                    }
+                }
             }
         }
     }

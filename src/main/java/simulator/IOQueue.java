@@ -6,7 +6,6 @@ import java.util.ArrayList;
 public class IOQueue implements Runnable {
     private Kernel kernel;
     private List<Process> queue;
-    private final Object lock = new Object();
 
     public IOQueue(Kernel kernel) {
         this.kernel = kernel;
@@ -24,12 +23,10 @@ public class IOQueue implements Runnable {
     @Override
     public void run() {
         while(true) {
-           synchronized(lock) {
-                if (!queue.isEmpty() && ioProb()) {
-                    Process proc = queue.remove(0);
-                    proc.setReady();
-                    kernel.push(proc);
-                }
+            if (!queue.isEmpty() && ioProb()) {
+                Process proc = queue.remove(0);
+                proc.setReady();
+                kernel.push(proc);
             }
         }
     }

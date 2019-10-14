@@ -8,11 +8,13 @@ public class Processor implements Runnable {
     public Process currentProc;
     public long workingTime;
     public long sleepingTime;
+    public int id;
 
     public Log log;
     public final Object lock = new Object();
 
-    public Processor(Kernel kernel) {
+    public Processor(int id, Kernel kernel) {
+        this.id = id;
         this.kernel = kernel;
 
         log = new Log();
