@@ -1,8 +1,11 @@
 package simulator;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Kernel implements Runnable {
     private int index;
     public int coresCount;
+    public List<Process> procs;
     public static IOQueue io;
     public static Processor [] cores;
 
@@ -15,6 +18,7 @@ public class Kernel implements Runnable {
         this.coresCount = coresCount;
 
         index = 0;
+        procs = new ArrayList<Process>();
         cores = new Processor[coresCount];
         coresThread = new Thread[coresCount];
         io = new IOQueue(this);
@@ -28,6 +32,7 @@ public class Kernel implements Runnable {
 
     public void push(Process proc) {
         synchronized (lock) {
+            procs.add(proc);
             cores[index].push(proc);
             index = (index + 1) % coresCount;
         }
