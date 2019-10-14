@@ -6,7 +6,7 @@ public class Simulator {
 
     public static void main(String [] args) {
         try {
-            Kernel kernel = new Kernel(4);
+            Kernel kernel = new Kernel(8);
             Thread kernelThread =  new Thread(kernel);
             kernelThread.start();
 
@@ -16,8 +16,7 @@ public class Simulator {
         }
 
         catch (Exception e) {
-            System.out.println("Unexpected error");
-            System.out.println(e.getMessage());
+            System.out.println("\n\nUnexpected error:\n\n" + e.getMessage());
             System.exit(0);
         }
     }

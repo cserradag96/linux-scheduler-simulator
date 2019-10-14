@@ -17,7 +17,7 @@ public class IOQueue implements Runnable {
     }
 
     public boolean ioProb() {
-        return Math.random() > 0.5;
+        return Math.random() > 0.25;
     }
 
     @Override

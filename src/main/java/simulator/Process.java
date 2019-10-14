@@ -102,11 +102,11 @@ public class Process extends PriorityPolicy implements Comparable<Process> {
     }
 
     private boolean ioProb() {
-        return Math.random() * Math.random() > 0.95;
+        return Math.random() > 0.95;
     }
 
     private boolean finishProb() {
-        return Math.random() * Math.random() * Math.random() > 0.95;
+        return Math.random() > 0.95;
     }
 
     private int setMinCicles() {

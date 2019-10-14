@@ -3,7 +3,7 @@ package simulator;
 public class Dispatcher implements Runnable {
     public Processor core;
 
-    private final int quantum = 512;
+    private final int quantum = 128;
     private int count;
     private boolean sleeping;
     public final Object lock = new Object();
@@ -33,15 +33,13 @@ public class Dispatcher implements Runnable {
 
             if (prev != null) {
                 core.setCurrent(null);
+                prev.updateVRuntime();
 
                 if (prev.isFinished()) core.log.pushProc(core, prev);
+                else if (prev.isBlocked()) core.kernel.io.push(prev);
                 else {
-                    prev.updateVRuntime();
-                    if (prev.isBlocked()) core.kernel.io.push(prev);
-                    else {
-                        prev.setReady();
-                        core.runQueue.push(prev);
-                    }
+                    prev.setReady();
+                    core.runQueue.push(prev);
                 }
             }
 

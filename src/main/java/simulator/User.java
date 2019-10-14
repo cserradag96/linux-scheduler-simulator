@@ -1,33 +1,46 @@
 package simulator;
 import java.lang.Math;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class User implements Runnable {
     private Kernel kernel;
+    private Timer timer;
     private final Object lock = new Object();
-    private final int delay = 1000000000;
+    private final int delay = 1000;
+    private final int strLen = 10;
 
     public User(Kernel kernel) {
         this.kernel = kernel;
+        timer = setTimer();
     }
 
-    public boolean newProcProb() {
-        return Math.random() * Math.random() * Math.random() > 0.95;
+    public boolean createProb() {
+        return Math.random() > 0.75;
     }
 
-    public void sleep() {
-        int count = delay;
-        while(count > 0) { count--; }
+    public void createProc() {
+        kernel.push(new Process(RandomStringUtils.randomAlphanumeric(strLen)));
+    }
+
+    public Timer setTimer() {
+        return new Timer(delay, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                timer.stop();                     // ZA WARUDO! TOKI YO TOMARE!
+                if (createProb()) createProc();   // WRYYYYY!
+                timer.start();                    // TOKI WA UGOKIDASU
+            }
+        });
     }
 
     @Override
     public void run() {
-        while(true) {
-            if (newProcProb()) {
-                kernel.push(new Process(RandomStringUtils.randomAlphanumeric(10)));
-            }
+        for(int i = 0; i < kernel.coresCount * 2; i++) createProc();
+        timer.start();
 
-            sleep();
-        }
+        while(true) {}
     }
 }
