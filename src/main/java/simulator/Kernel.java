@@ -11,7 +11,6 @@ public class Kernel implements Runnable {
 
     private static Thread ioThread;
     private static Thread [] coresThread;
-    private final Object lock = new Object();
     private boolean writing = false;
 
     public Kernel(int coresCount) {
@@ -30,12 +29,18 @@ public class Kernel implements Runnable {
         }
     }
 
-    public void push(Process proc) {
-        synchronized (lock) {
-            procs.add(proc);
-            cores[index].push(proc);
-            index = (index + 1) % coresCount;
+    public synchronized void push(Process proc) {
+        while (writing) {
+            try { wait(); }
+            catch (InterruptedException e) {}
         }
+
+        writing = true;
+        procs.add(proc);
+        cores[index].push(proc);
+        index = (index + 1) % coresCount;
+        writing = false;
+        notify();
     }
 
     @Override
