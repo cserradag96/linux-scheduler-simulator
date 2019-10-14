@@ -6,7 +6,6 @@ public class Dispatcher implements Runnable {
     private final int quantum = 128;
     private int count;
     private boolean sleeping;
-    public final Object lock = new Object();
 
     public Dispatcher(Processor core) {
         this.core = core;
@@ -14,11 +13,9 @@ public class Dispatcher implements Runnable {
         sleeping = false;
     }
 
-    public void wakeUp() {
-        synchronized (lock) {
-            count = quantum;
-            sleeping = false;
-        }
+    public synchronized void wakeUp() {
+        count = quantum;
+        sleeping = false;
     }
 
     public void sleep() {
