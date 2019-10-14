@@ -43,15 +43,11 @@ public class Dispatcher implements Runnable {
                 }
             }
 
-            synchronized (lock) {
-                if (!core.runQueue.isEmpty()) {
-                    Process next = core.runQueue.pop();
-                    if (next != null) {
-                        next.setRunning();
-                        core.setCurrent(next);
-                        sleep();
-                    }
-                }
+            if (!core.runQueue.isEmpty()) {
+                Process next = core.runQueue.pop();
+                next.setRunning();
+                core.setCurrent(next);
+                sleep();
             }
         }
     }
