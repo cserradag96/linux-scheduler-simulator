@@ -6,6 +6,7 @@ public class Kernel implements Runnable {
     private int index;
     public int coresCount;
     public List<Process> procs;
+    public Gui gui;
     public static IOQueue io;
     public static Processor [] cores;
 
@@ -13,9 +14,9 @@ public class Kernel implements Runnable {
     private static Thread [] coresThread;
     private boolean writing = false;
 
+
     public Kernel(int coresCount) {
         this.coresCount = coresCount;
-
         index = 0;
         procs = new ArrayList<Process>();
         cores = new Processor[coresCount];
@@ -27,6 +28,8 @@ public class Kernel implements Runnable {
             cores[i] = new Processor(i, this);
             coresThread[i] = new Thread(cores[i]);
         }
+
+        gui = new Gui();
     }
 
     public synchronized void push(Process proc) {

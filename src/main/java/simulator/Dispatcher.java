@@ -31,8 +31,15 @@ public class Dispatcher implements Runnable {
             if (prev != null) {
                 core.setCurrent(null);
                 prev.updateVRuntime();
+                core.kernel.gui.pushProc(core, prev);
+                
+                if (prev.isFinished()){
+                    core.log.pushProc(core, prev);
+                    
+                }
 
-                if (prev.isFinished()) core.log.pushProc(core, prev);
+
+                    
                 else if (prev.isBlocked()) core.kernel.io.push(prev);
                 else {
                     prev.setReady();
