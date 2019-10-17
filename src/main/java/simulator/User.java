@@ -8,7 +8,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 public class User implements Runnable {
     private Kernel kernel;
     private Timer timer;
-    private final int delay = 512;
+    private final int delay = 1024;
     private final int strLen = 10;
 
     public User(Kernel kernel) {
@@ -17,7 +17,7 @@ public class User implements Runnable {
     }
 
     public boolean createProb() {
-        return Math.random() > 0.75;
+        return Math.random() > 0.95;
     }
 
     public void createProc() {

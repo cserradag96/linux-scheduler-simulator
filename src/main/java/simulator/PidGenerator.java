@@ -9,7 +9,7 @@ public class PidGenerator {
         return instance;
     }
 
-    public int getPid() {
+    public synchronized int getPid() {
         if (nextPid < 0) throw new IllegalStateException("Out of IDs!");
 
         int pid = nextPid;
