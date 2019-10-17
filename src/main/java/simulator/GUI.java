@@ -18,21 +18,21 @@ public class GUI {
     private int row;
     private boolean exists;
 
-  	public GUI(){
+    public GUI(){
         frame = new JFrame();
-  		model = new DefaultTableModel(columns, 0);
-  		table = new JTable(model);
+        model = new DefaultTableModel(columns, 0);
+        table = new JTable(model);
 
-  		jsp = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        jsp = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         jsp.setBorder(BorderFactory.createTitledBorder ("Process Simulator"));
 
-  		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-  		frame.setLayout(new BorderLayout());
-  		frame.setSize(700,400);
-  		frame.add(jsp, BorderLayout.CENTER);
-  		frame.setLocationRelativeTo(null);
-  		frame.setVisible(true);
-  	}
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+        frame.setSize(700,400);
+        frame.add(jsp, BorderLayout.CENTER);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+    }
 
     public synchronized void pushProc(Process proc) {
         row = existsInTable(table, Integer.toString(proc.pid));
