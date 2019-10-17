@@ -5,11 +5,13 @@ import java.util.List;
 public class RedBlackTree {
     private Node nil = new Node();
     public Node root = nil;
+    public int length;
 
     public RedBlackTree() {
         root.left = nil;
         root.right = nil;
         root.parent = nil;
+        length = 0;
     }
 
     // @param: x, The node which the lefRotate is to be performed on.
@@ -202,6 +204,9 @@ public class RedBlackTree {
         z.right = nil;
         z.color = Node.RED;
 
+        //  Increment length
+        length++;
+
         // Call insertFixup(z)
         insertFixup(z);
     }
@@ -361,6 +366,8 @@ public class RedBlackTree {
         // RedBlackTree properties so call removeFixup()
         if (y.color == Node.BLACK)
             removeFixup(x);
+
+        length--;
     }
 
     // @param: y, the Node which was actually deleted from the tree

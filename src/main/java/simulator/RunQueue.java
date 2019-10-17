@@ -4,7 +4,7 @@ public class RunQueue extends RedBlackTree {
     private boolean writing = false;
 
     public synchronized boolean isEmpty() {
-        return size() <= 1;
+        return length == 0;
     }
 
     public synchronized void push(Process proc) {
