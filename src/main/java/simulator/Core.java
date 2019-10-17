@@ -21,6 +21,16 @@ public class Core implements Runnable {
         dispatcherThread = new Thread(dispatcher);
         workingTime = 0;
         sleepingTime = 0;
+
+        kernel.gui.pushCore(this);
+    }
+
+    public Long usagePercentage() {
+        if(workingTime+sleepingTime == 0) {
+            return 0L;
+        } else {
+            return ((100*workingTime)/(workingTime+sleepingTime));
+        }
     }
 
     public void push(Process proc) {
@@ -48,6 +58,7 @@ public class Core implements Runnable {
                 else cur.run();
                 workingTime++;
             }
+            kernel.gui.pushCore(this);
         }
     }
 }
