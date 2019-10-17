@@ -7,7 +7,7 @@ public class Kernel implements Runnable {
     public int coresCount;
     public static GUI gui;
     public static IOQueue io;
-    public static Processor [] cores;
+    public static Core [] cores;
 
     private static Thread ioThread;
     private static Thread [] coresThread;
@@ -17,13 +17,13 @@ public class Kernel implements Runnable {
 
         index = 0;
         gui = new GUI();
-        cores = new Processor[coresCount];
+        cores = new Core[coresCount];
         coresThread = new Thread[coresCount];
         io = new IOQueue(this);
         ioThread = new Thread(io);
 
         for(int i = 0; i < coresCount; i++) {
-            cores[i] = new Processor(i, this);
+            cores[i] = new Core(i, this);
             coresThread[i] = new Thread(cores[i]);
         }
     }

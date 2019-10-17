@@ -3,7 +3,7 @@ package simulator;
 public class Log {
     private String buf;
 
-    public synchronized void pushProc(Processor core, Process proc) {
+    public synchronized void pushProc(Core core, Process proc) {
         String buf = "";
         if (core != null) buf += String.format("\nCore %d:", core.id);
         buf += String.format("\n  Process %d:", proc.pid);

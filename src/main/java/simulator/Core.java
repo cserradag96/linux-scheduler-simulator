@@ -1,6 +1,6 @@
 package simulator;
 
-public class Processor implements Runnable {
+public class Core implements Runnable {
     public RunQueue runQueue;
     public Dispatcher dispatcher;
     public Thread dispatcherThread;
@@ -11,7 +11,7 @@ public class Processor implements Runnable {
     public int id;
     public Log log;
 
-    public Processor(int id, Kernel kernel) {
+    public Core(int id, Kernel kernel) {
         this.id = id;
         this.kernel = kernel;
 

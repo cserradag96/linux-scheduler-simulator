@@ -1,13 +1,13 @@
 package simulator;
 
 public class Dispatcher implements Runnable {
-    public Processor core;
+    public Core core;
 
     private final int quantum = 128;
     private int count;
     private boolean sleeping;
 
-    public Dispatcher(Processor core) {
+    public Dispatcher(Core core) {
         this.core = core;
         count = quantum;
         sleeping = false;
