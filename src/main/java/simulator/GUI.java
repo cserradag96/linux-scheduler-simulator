@@ -32,32 +32,41 @@ public class GUI {
   		frame.add(jsp, BorderLayout.CENTER);
   		frame.setLocationRelativeTo(null);
   		frame.setVisible(true);
-
   	}
 
     public synchronized void pushProc(Process proc) {
         row = existsInTable(table, Integer.toString(proc.pid));
+        if (row == -1) addRow(proc);
+        else updateRow(proc);
+    }
 
-        if(row == -1){
-          model.addRow(new Object[]{Integer.toString(proc.pid), proc.name, Long.toString(proc.totalCicles), Integer.toString(proc.memory), Integer.toString(proc.ioRequest), proc.state, Integer.toString(proc.vruntime)});
-        }
+    public void addRow(Process proc) {
+        model.addRow(
+            new Object[] {
+                Integer.toString(proc.pid),
+                proc.name,
+                Long.toString(proc.totalCicles),
+                Integer.toString(proc.memory),
+                Integer.toString(proc.ioRequest),
+                proc.state,
+                Integer.toString(proc.vruntime)
+            }
+        );
+    }
 
-        else {
-          table.setValueAt(Long.toString(proc.totalCicles), row, 2);
-          table.setValueAt(Integer.toString(proc.memory), row, 3);
-          table.setValueAt(Integer.toString(proc.ioRequest), row, 4);
-          table.setValueAt(proc.state, row, 5);
-          table.setValueAt(Integer.toString(proc.getVRuntime()), row, 6);
-        }
+    public void updateRow(Process proc) {
+        table.setValueAt(Long.toString(proc.totalCicles), row, 2);
+        table.setValueAt(Integer.toString(proc.memory), row, 3);
+        table.setValueAt(Integer.toString(proc.ioRequest), row, 4);
+        table.setValueAt(proc.state, row, 5);
+        table.setValueAt(Integer.toString(proc.getVRuntime()), row, 6);
     }
 
     public int existsInTable(JTable table, String pid) {
         int rowCount = table.getRowCount();
 
-        for (int i = 0; i < rowCount; i++) {
-            if(pid.equals(table.getValueAt(i,0).toString())){
-                return i;
-            }
+        for(int i = 0; i < rowCount; i++) {
+            if (pid.equals(table.getValueAt(i,0).toString())) return i;
         }
         return -1;
     }
