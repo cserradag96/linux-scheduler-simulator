@@ -1,16 +1,19 @@
 package simulator;
 
 public class Simulator {
-    public Kernel kernel;
-    public User user;
+    public static Kernel kernel;
+    public static User user;
+
+    private static Thread kernelThread;
+    private static Thread userThread;
 
     public static void main(String [] args) {
         try {
-            Kernel kernel = new Kernel(8);
-            Thread kernelThread =  new Thread(kernel);
+            kernel = new Kernel(4);
+            kernelThread =  new Thread(kernel);
             kernelThread.start();
 
-            User user = new User(kernel);
+            user = new User(kernel);
             Thread userThread =  new Thread(user);
             userThread.start();
         }

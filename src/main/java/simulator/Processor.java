@@ -25,13 +25,14 @@ public class Processor implements Runnable {
 
     public void push(Process proc) {
         runQueue.push(proc);
+        kernel.gui.pushProc(proc);
     }
 
-    public Process getCurrent() {
+    public synchronized Process getCurrent() {
         return currentProc;
     }
 
-    public void setCurrent(Process proc) {
+    public synchronized void setCurrent(Process proc) {
         this.currentProc = proc;
     }
 

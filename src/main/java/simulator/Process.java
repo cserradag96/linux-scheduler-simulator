@@ -15,6 +15,8 @@ public class Process extends PriorityPolicy implements Comparable<Process> {
     public int minCicles;
     public long runCicles;
     public long totalCicles;
+    private boolean writing = false;
+
 
     public Process(String name) {
         this.name = name;
@@ -40,11 +42,6 @@ public class Process extends PriorityPolicy implements Comparable<Process> {
         return gson.fromJson(proc, Process.class);
     }
 
-    public void updateVRuntime() {
-        vruntime += (runCicles * NICE_0_VALUE) / loadWeight();
-        runCicles = 0;
-    }
-
     public void run() {
         totalCicles++;
         runCicles++;
@@ -60,43 +57,52 @@ public class Process extends PriorityPolicy implements Comparable<Process> {
         }
     }
 
-    public boolean isFinished() {
+    public synchronized void updateVRuntime() {
+        vruntime += (runCicles * NICE_0_VALUE) / loadWeight();
+        runCicles = 0;
+    }
+
+    public synchronized int getVRuntime() {
+        return vruntime;
+    }
+
+    public synchronized boolean isFinished() {
         return isZombie();
     }
 
-    public boolean isZombie() {
+    public synchronized boolean isZombie() {
         return state == "zombie";
     }
 
-    public boolean isBlocked() {
+    public synchronized boolean isBlocked() {
         return state == "blocked";
     }
 
-    public boolean isReady() {
+    public synchronized boolean isReady() {
         return state == "ready";
     }
 
-    public boolean isRunning() {
+    public synchronized boolean isRunning() {
         return state == "running";
     }
 
-    public void setReady() {
+    public synchronized void setReady() {
         state = "ready";
     }
 
-    public void setRunning() {
-         state = "running";
+    public synchronized void setRunning() {
+        state = "running";
     }
 
-    public void setZombie() {
+    public synchronized void setZombie() {
         state = "zombie";
     }
 
-    public void setBlocked() {
+    public synchronized void setBlocked() {
         state = "blocked";
     }
 
-    private void updateMemory() {
+    private synchronized void updateMemory() {
         memory += (Math.random() > 0.5 ? 1 : -1) * 10;
         memory = Math.max(memory, 0);
     }
@@ -106,11 +112,11 @@ public class Process extends PriorityPolicy implements Comparable<Process> {
     }
 
     private boolean finishProb() {
-        return Math.random() > 0.95;
+        return Math.random() * Math.random() * Math.random() > 0.95;
     }
 
     private int setMinCicles() {
-        return (int)Math.pow(2, (int)(Math.random() * 10));
+        return (int)Math.pow(2, (int)(Math.random() * 10) + (int)(Math.random() * 10));
     }
 
     private int loadWeight() {
