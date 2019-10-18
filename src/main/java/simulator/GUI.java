@@ -25,6 +25,7 @@ public class GUI implements Runnable {
         processPanel.setLayout(new BorderLayout());
         processModel = new DefaultTableModel(processColumns, 0);
         processTable = new JTable(processModel);
+        processTable.setDefaultEditor(Object.class, null);
         alignCenter(processTable, 0, 1);
         alignRight(processTable, 1, processColumns.length);
         processScroll = new JScrollPane(processTable);
@@ -37,6 +38,7 @@ public class GUI implements Runnable {
         coresPanel.setLayout(new BorderLayout());
         coresModel = new DefaultTableModel(coresColumns, 0);
         coresTable = new JTable(coresModel);
+        coresTable.setDefaultEditor(Object.class, null);
         alignCenter(coresTable, 0, 1);
         alignRight(coresTable, 1, coresColumns.length);
         coresScroll = new JScrollPane(coresTable);
