@@ -37,7 +37,7 @@ public class User implements Runnable {
 
     @Override
     public void run() {
-        for(int i = 0; i < kernel.coresCount * 4; i++) createProc();
+        for(int i = 0; i < kernel.coresCount * 2; i++) createProc();
         timer.start();
 
         while(true) {}

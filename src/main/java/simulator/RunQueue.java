@@ -8,6 +8,12 @@ public class RunQueue extends RedBlackTree {
     }
 
     public synchronized void push(Process proc) {
+        if (!isEmpty()) {
+            Node node = treeMinimum(root);
+            int minVRuntime = node.key.getVRuntime();
+            if (proc.getVRuntime() < minVRuntime) proc.setVRuntime(minVRuntime);
+        }
+
         insert(proc);
     }
 

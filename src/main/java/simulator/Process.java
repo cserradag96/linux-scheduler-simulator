@@ -62,6 +62,10 @@ public class Process extends PriorityPolicy implements Comparable<Process> {
         runCicles = 0;
     }
 
+    public synchronized void setVRuntime(int vruntime) {
+        this.vruntime = vruntime;
+    }
+
     public synchronized int getVRuntime() {
         return vruntime;
     }
