@@ -48,7 +48,7 @@ public class GUI implements Runnable {
         frame = new JFrame("Scheduler Simulator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        frame.setSize(800, 500);
+        frame.setSize(900, 500);
         frame.add(tabbedPane, BorderLayout.CENTER);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
