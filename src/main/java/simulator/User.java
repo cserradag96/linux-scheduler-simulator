@@ -3,25 +3,26 @@ import java.lang.Math;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Timer;
-import org.apache.commons.lang3.RandomStringUtils;
 
 public class User implements Runnable {
+    public String name;
+
     private Kernel kernel;
     private Timer timer;
-    private final int delay = 1024;
-    private final int strLen = 10;
+    private final int delay = 256;
 
-    public User(Kernel kernel) {
+    public User(Kernel kernel, String name) {
         this.kernel = kernel;
+        this.name = name;
         timer = setTimer();
     }
 
     public boolean createProb() {
-        return Math.random() > 0.95;
+        return Math.random() > 0.35;
     }
 
     public void createProc() {
-        kernel.push(new Process(RandomStringUtils.randomAlphanumeric(strLen)));
+        kernel.push(new Process(name));
     }
 
     public Timer setTimer() {
@@ -37,7 +38,7 @@ public class User implements Runnable {
 
     @Override
     public void run() {
-        for(int i = 0; i < kernel.coresCount * 2; i++) createProc();
+        for(int i = 0; i < kernel.coresCount * 3; i++) createProc();
         timer.start();
 
         while(true) {}

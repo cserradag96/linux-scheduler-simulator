@@ -1,7 +1,6 @@
 package simulator;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.RandomStringUtils;
 
 public class Kernel implements Runnable {
     private int index;
@@ -14,8 +13,7 @@ public class Kernel implements Runnable {
     private static Thread ioThread;
     private static Thread [] coresThread;
 
-    private final int quantum = 256;
-    private final int strLen = 10;
+    private final int quantum = 8192;
 
     public Kernel(int coresCount) {
         this.coresCount = coresCount;
@@ -51,7 +49,7 @@ public class Kernel implements Runnable {
         while(true) {
             for(int i = 0; i < coresCount; i++) {
                 if (cores[i].runQueue.isEmpty()) {
-                    cores[i].push(new Process(RandomStringUtils.randomAlphanumeric(strLen)));
+                    cores[i].push(new Process("root"));
                 }
             }
 

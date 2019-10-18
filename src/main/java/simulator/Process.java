@@ -1,9 +1,11 @@
 package simulator;
 import java.lang.Math;
 import com.google.gson.Gson;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class Process extends PriorityPolicy implements Comparable<Process> {
     public String name;
+    public String owner;
     public String state;
     public int vruntime;
 
@@ -16,8 +18,11 @@ public class Process extends PriorityPolicy implements Comparable<Process> {
     public long runCicles;
     public long totalCicles;
 
-    public Process(String name) {
-        this.name = name;
+    private final int strLen = 10;
+
+    public Process(String owner) {
+        this.name = RandomStringUtils.randomAlphanumeric(strLen);
+        this.owner = owner;
 
         pid = PidGenerator.instance().getPid();
         state = "ready";

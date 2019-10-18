@@ -1,8 +1,6 @@
 package simulator;
 
 public class RunQueue extends RedBlackTree {
-    private boolean writing = false;
-
     public synchronized boolean isEmpty() {
         return length == 0;
     }

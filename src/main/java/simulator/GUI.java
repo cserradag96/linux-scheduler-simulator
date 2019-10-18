@@ -11,8 +11,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 public class GUI implements Runnable {
     public JTable processTable, coresTable;
-    public String processColumns[] = {"PID", "Name", "PR", "NC", "Cicles", "Memory", "I/O", "State", "V-Runtime"};
-    public String coresColumns[] = {"ID", "Working TIme", "Sleeping Time", "Usage Percentage"};
+    public String processColumns[] = {"PID", "NAME", "USER", "PR", "NC", "CICLES", "MEM", "I/O", "STATE", "VIRT"};
+    public String coresColumns[] = {"ID", "WORKING TIME", "SLEEPING TIME", "USAGE"};
     public DefaultTableModel processModel, coresModel;
     public JPanel panel, processPanel, coresPanel;
     public JScrollPane processScroll, coresScroll;
@@ -71,6 +71,7 @@ public class GUI implements Runnable {
             new Object[] {
                 Integer.toString(proc.pid),
                 proc.name,
+                proc.owner,
                 proc.getPriority(),
                 proc.getNice(),
                 Long.toString(proc.totalCicles),
@@ -94,11 +95,11 @@ public class GUI implements Runnable {
     }
 
     public void updateRow(Process proc, int row) {
-        processTable.setValueAt(Long.toString(proc.totalCicles), row, 4);
-        processTable.setValueAt(Integer.toString(proc.memory), row, 5);
-        processTable.setValueAt(Integer.toString(proc.ioRequest), row, 6);
-        processTable.setValueAt(proc.state, row, 7);
-        processTable.setValueAt(Integer.toString(proc.getVRuntime()), row, 8);
+        processTable.setValueAt(Long.toString(proc.totalCicles), row, 5);
+        processTable.setValueAt(Integer.toString(proc.memory), row, 6);
+        processTable.setValueAt(Integer.toString(proc.ioRequest), row, 7);
+        processTable.setValueAt(proc.state, row, 8);
+        processTable.setValueAt(Integer.toString(proc.getVRuntime()), row, 9);
     }
 
     public void updateRowCore(Core core, int row) {

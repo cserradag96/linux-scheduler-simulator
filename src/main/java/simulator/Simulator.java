@@ -23,7 +23,7 @@ public class Simulator extends CLI {
             usersThreads = new Thread[usersCount];
 
             for(int i = 0; i < usersCount; i++) {
-                users[i] = new User(kernel);
+                users[i] = new User(kernel, "user" + Integer.toString(i));
                 usersThreads[i] = new Thread(users[i]);
                 usersThreads[i].start();
             }
