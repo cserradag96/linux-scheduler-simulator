@@ -26,11 +26,8 @@ public class Core implements Runnable {
     }
 
     public Long usagePercentage() {
-        if(workingTime+sleepingTime == 0) {
-            return 0L;
-        } else {
-            return ((100*workingTime)/(workingTime+sleepingTime));
-        }
+        if (workingTime + sleepingTime == 0) return 0L;
+        return ((100 * workingTime) / (workingTime + sleepingTime));
     }
 
     public void push(Process proc) {
@@ -52,12 +49,12 @@ public class Core implements Runnable {
 
         while(true) {
             Process cur = getCurrent();
-            if (cur == null) sleepingTime++;
-            else {
+            if (cur != null) {
                 if (cur.isBlocked() || cur.isFinished()) dispatcher.wakeUp();
                 else cur.run();
                 workingTime++;
             }
+            else if (runQueue.isEmpty()) sleepingTime++;
             kernel.gui.pushCore(this);
         }
     }

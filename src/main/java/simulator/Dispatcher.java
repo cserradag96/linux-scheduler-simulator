@@ -3,7 +3,7 @@ package simulator;
 public class Dispatcher implements Runnable {
     public Core core;
 
-    private final int quantum = 128;
+    private final int quantum = 42;
     private int count;
     private boolean sleeping;
 
