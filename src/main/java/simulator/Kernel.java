@@ -9,6 +9,7 @@ public class Kernel implements Runnable {
     public static IOQueue io;
     public static Core [] cores;
 
+    private static Thread guiThread;
     private static Thread ioThread;
     private static Thread [] coresThread;
 
@@ -17,6 +18,7 @@ public class Kernel implements Runnable {
 
         index = 0;
         gui = new GUI();
+        guiThread = new Thread(gui);
         cores = new Core[coresCount];
         coresThread = new Thread[coresCount];
         io = new IOQueue(this);
@@ -35,6 +37,7 @@ public class Kernel implements Runnable {
 
     @Override
     public void run() {
+        guiThread.start();
         ioThread.start();
 
         for(int i = 0; i < coresCount; i++) {

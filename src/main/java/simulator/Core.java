@@ -9,13 +9,11 @@ public class Core implements Runnable {
     public long workingTime;
     public long sleepingTime;
     public int id;
-    public Log log;
 
     public Core(int id, Kernel kernel) {
         this.id = id;
         this.kernel = kernel;
 
-        log = new Log();
         runQueue = new RunQueue();
         dispatcher = new Dispatcher(this);
         dispatcherThread = new Thread(dispatcher);
