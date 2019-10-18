@@ -7,10 +7,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 public class GUI implements Runnable {
     public JTable processTable, coresTable;
-    public String processColumns[] = {"PID", "Name", "Cicles", "Memory", "I/O", "State", "V-Runtime"};
+    public String processColumns[] = {"PID", "Name", "PR", "NC", "Cicles", "Memory", "I/O", "State", "V-Runtime"};
     public String coresColumns[] = {"ID", "Working TIme", "Sleeping Time", "Usage Percentage"};
     public DefaultTableModel processModel, coresModel;
     public JPanel panel, processPanel, coresPanel;
@@ -24,6 +25,8 @@ public class GUI implements Runnable {
         processPanel.setLayout(new BorderLayout());
         processModel = new DefaultTableModel(processColumns, 0);
         processTable = new JTable(processModel);
+        alignCenter(processTable, 0, 1);
+        alignRight(processTable, 1, processColumns.length);
         processScroll = new JScrollPane(processTable);
         processPanel.add(processScroll, BorderLayout.CENTER);
 
@@ -34,6 +37,8 @@ public class GUI implements Runnable {
         coresPanel.setLayout(new BorderLayout());
         coresModel = new DefaultTableModel(coresColumns, 0);
         coresTable = new JTable(coresModel);
+        alignCenter(coresTable, 0, 1);
+        alignRight(coresTable, 1, coresColumns.length);
         coresScroll = new JScrollPane(coresTable);
         coresPanel.add(coresScroll, BorderLayout.CENTER);
 
@@ -43,7 +48,7 @@ public class GUI implements Runnable {
         frame = new JFrame("Scheduler Simulator");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
-        frame.setSize(700, 400);
+        frame.setSize(800, 500);
         frame.add(tabbedPane, BorderLayout.CENTER);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -66,6 +71,8 @@ public class GUI implements Runnable {
             new Object[] {
                 Integer.toString(proc.pid),
                 proc.name,
+                proc.getPriority(),
+                proc.getNice(),
                 Long.toString(proc.totalCicles),
                 Integer.toString(proc.memory),
                 Integer.toString(proc.ioRequest),
@@ -87,11 +94,11 @@ public class GUI implements Runnable {
     }
 
     public void updateRow(Process proc, int row) {
-        processTable.setValueAt(Long.toString(proc.totalCicles), row, 2);
-        processTable.setValueAt(Integer.toString(proc.memory), row, 3);
-        processTable.setValueAt(Integer.toString(proc.ioRequest), row, 4);
-        processTable.setValueAt(proc.state, row, 5);
-        processTable.setValueAt(Integer.toString(proc.getVRuntime()), row, 6);
+        processTable.setValueAt(Long.toString(proc.totalCicles), row, 4);
+        processTable.setValueAt(Integer.toString(proc.memory), row, 5);
+        processTable.setValueAt(Integer.toString(proc.ioRequest), row, 6);
+        processTable.setValueAt(proc.state, row, 7);
+        processTable.setValueAt(Integer.toString(proc.getVRuntime()), row, 8);
     }
 
     public void updateRowCore(Core core, int row) {
@@ -107,6 +114,22 @@ public class GUI implements Runnable {
             if (pid.equals(table.getValueAt(i,0).toString())) return i;
         }
         return -1;
+    }
+
+    private void alignRight(JTable table, int min, int max) {
+        for(int i = min; i < max; i++) {
+            DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
+            rightRenderer.setHorizontalAlignment(DefaultTableCellRenderer.RIGHT);
+            table.getColumnModel().getColumn(i).setCellRenderer(rightRenderer);
+        }
+    }
+
+    private void alignCenter(JTable table, int min, int max) {
+        for(int i = min; i < max; i++) {
+            DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+            centerRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
     }
 
     @Override

@@ -15,8 +15,6 @@ public class Process extends PriorityPolicy implements Comparable<Process> {
     public int minCicles;
     public long runCicles;
     public long totalCicles;
-    private boolean writing = false;
-
 
     public Process(String name) {
         this.name = name;
@@ -29,7 +27,7 @@ public class Process extends PriorityPolicy implements Comparable<Process> {
         runCicles = 0;
         totalCicles = 0;
         ioRequest = 0;
-        priority = 120;
+        priority = setPriority();
     }
 
     public String toJson() {
@@ -70,6 +68,14 @@ public class Process extends PriorityPolicy implements Comparable<Process> {
         return vruntime;
     }
 
+    public int getNice() {
+        return prioToNice(priority);
+    }
+
+    public int getPriority() {
+        return userPriority(priority);
+    }
+
     public synchronized boolean isFinished() {
         return isZombie();
     }
@@ -106,6 +112,12 @@ public class Process extends PriorityPolicy implements Comparable<Process> {
         state = "blocked";
     }
 
+    public int compareTo(Process proc) {
+        if (this.vruntime < proc.vruntime) return -1;
+        else if (this.vruntime > proc.vruntime) return 1;
+        return 0;
+    }
+
     private synchronized void updateMemory() {
         memory += (Math.random() > 0.5 ? 1 : -1) * 10;
         memory = Math.max(memory, 0);
@@ -127,9 +139,8 @@ public class Process extends PriorityPolicy implements Comparable<Process> {
         return SCHEDULER_PRIORITY_TO_WEIGHT[userPriority(priority)];
     }
 
-    public int compareTo(Process proc) {
-        if (this.vruntime < proc.vruntime) return -1;
-        else if (this.vruntime > proc.vruntime) return 1;
-        return 0;
+    private int setPriority() {
+        if (Math.random() > 0.85) return MAX_RT_PRIORITY + (int)(Math.random() * NICE_WIDTH);
+        return DEFAULT_PRIORITY;
     }
 }

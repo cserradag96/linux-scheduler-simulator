@@ -19,7 +19,7 @@ class PriorityPolicy {
     public static final int MAX_USER_RT_PRIORITY = 100;
     public static final int MAX_RT_PRIORITY = MAX_USER_RT_PRIORITY;
     public static final int MAX_PRIORITY = (MAX_RT_PRIORITY + NICE_WIDTH);
-    public static final int DEFAULT_PRIORITY = (MAX_RT_PRIORITY + NICE_WIDTH / 2);
+    public static final int DEFAULT_PRIORITY = MAX_RT_PRIORITY + NICE_WIDTH / 2;
 
     /*
     * Convert user-nice values [ -20 ... 0 ... 19 ]
