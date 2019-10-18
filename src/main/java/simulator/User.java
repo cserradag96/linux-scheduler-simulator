@@ -9,7 +9,7 @@ public class User implements Runnable {
 
     private Kernel kernel;
     private Timer timer;
-    private final int delay = 256;
+    private final int delay = 512;
 
     public User(Kernel kernel, String name) {
         this.kernel = kernel;
@@ -18,7 +18,7 @@ public class User implements Runnable {
     }
 
     public boolean createProb() {
-        return Math.random() > 0.35;
+        return Math.random() > 0.5;
     }
 
     public void createProc() {
