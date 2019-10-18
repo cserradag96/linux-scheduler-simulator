@@ -108,7 +108,7 @@ public class Process extends PriorityPolicy implements Comparable<Process> {
     }
 
     private boolean ioProb() {
-        return Math.random() > 0.95;
+        return Math.random() * Math.random() > 0.85;
     }
 
     private boolean finishProb() {
